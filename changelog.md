@@ -3,6 +3,10 @@
 This file lists notable changes that have been made to the application on each release.
 Releases are tracked and referred to using git tags.
 
+## v0.40 -- 2024-08-31
+- update Android SDK target API to 34 (Android 14)
+- add monochrome app icon
+
 ## v0.39 -- 2024-01-20
 - fix permissions for newly created or joined network host and key files
 
