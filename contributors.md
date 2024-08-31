@@ -7,7 +7,7 @@ This document lists (in alphabetical order) the people who have participated in 
 Main developer
 --------------
 
-* Pacien TRAN-GIRARD
+* Euxane P. TRAN-GIRARD
 
 
 Other contributors
