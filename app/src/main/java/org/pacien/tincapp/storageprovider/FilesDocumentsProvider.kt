@@ -94,8 +94,8 @@ class FilesDocumentsProvider : DocumentsProvider() {
     MatrixCursor(projection ?: DEFAULT_DOCUMENT_PROJECTION).apply {
       when (parentDocumentId) {
         ROOT_DOCUMENT_ID -> {
-          addVirtualDirRow(VIRTUAL_ROOT_NETWORKS)
-          addVirtualDirRow(VIRTUAL_ROOT_LOG)
+          addVirtualDirRow(VIRTUAL_ROOT_NETWORKS, Document.FLAG_DIR_SUPPORTS_CREATE)
+          addVirtualDirRow(VIRTUAL_ROOT_LOG, Document.FLAG_DIR_SUPPORTS_CREATE)
         }
 
         else -> fileForDocumentId(parentDocumentId!!).listFiles()?.forEach {
@@ -206,12 +206,12 @@ class FilesDocumentsProvider : DocumentsProvider() {
     )
   }
 
-  private fun MatrixCursor.addVirtualDirRow(documentId: String) {
+  private fun MatrixCursor.addVirtualDirRow(documentId: String, flags: Int = 0) {
     addRow(
       Document.COLUMN_DOCUMENT_ID to documentId,
       Document.COLUMN_DISPLAY_NAME to documentId,
       Document.COLUMN_MIME_TYPE to Document.MIME_TYPE_DIR,
-      Document.COLUMN_FLAGS to Document.FLAG_DIR_SUPPORTS_CREATE,
+      Document.COLUMN_FLAGS to flags,
     )
   }
 
