@@ -22,6 +22,7 @@ import android.os.CancellationSignal
 import android.os.ParcelFileDescriptor
 import android.database.Cursor
 import android.database.MatrixCursor
+import android.net.Uri
 import android.os.Build
 import android.provider.DocumentsContract
 import android.provider.DocumentsContract.Document
@@ -92,13 +93,14 @@ class FilesDocumentsProvider : DocumentsProvider() {
     sortOrder: String?
   ): Cursor =
     MatrixCursor(projection ?: DEFAULT_DOCUMENT_PROJECTION).apply {
+      setNotificationUrl(BrowseFilesIntents.childDocumentsUri(parentDocumentId!!))
       when (parentDocumentId) {
         ROOT_DOCUMENT_ID -> {
           addVirtualDirRow(VIRTUAL_ROOT_NETWORKS, Document.FLAG_DIR_SUPPORTS_CREATE)
           addVirtualDirRow(VIRTUAL_ROOT_LOG, Document.FLAG_DIR_SUPPORTS_CREATE)
         }
 
-        else -> fileForDocumentId(parentDocumentId!!).listFiles()?.forEach {
+        else -> fileForDocumentId(parentDocumentId).listFiles()?.forEach {
           addFileRow(documentIdForFile(it), it)
         }
       }
@@ -126,6 +128,7 @@ class FilesDocumentsProvider : DocumentsProvider() {
   override fun deleteDocument(documentId: String?) {
     fileForDocumentId(documentId!!).apply {
       if (!deleteRecursively()) throw FileSystemException(this)
+      notifyChange(BrowseFilesIntents.childDocumentsUri(documentIdForFile(parentFile)))
     }
   }
 
@@ -150,6 +153,7 @@ class FilesDocumentsProvider : DocumentsProvider() {
         else -> createNewFile()
       }
       if (!success) throw FileSystemException(this)
+      notifyChange(BrowseFilesIntents.childDocumentsUri(parentDocumentId))
     }.let {
       documentIdForFile(it)
     }
@@ -222,5 +226,13 @@ class FilesDocumentsProvider : DocumentsProvider() {
   private fun MatrixCursor.addRow(vararg pairs: Pair<String, Any?>) {
     val row = newRow()
     pairs.forEach { row.add(it.first, it.second) }
+  }
+
+  private fun MatrixCursor.setNotificationUrl(uri: Uri) {
+    setNotificationUri(context!!.contentResolver, uri)
+  }
+
+  private fun notifyChange(uri: Uri) {
+    context!!.contentResolver.notifyChange(uri, null)
   }
 }

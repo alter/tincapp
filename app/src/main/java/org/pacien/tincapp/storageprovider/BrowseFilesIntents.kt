@@ -28,10 +28,14 @@ import org.pacien.tincapp.BuildConfig
 object BrowseFilesIntents {
   private const val URI_AUTHORITY = BuildConfig.APPLICATION_ID + ".files"
 
-  fun openDocumentTree(context: Context, documentId: String) {
-    val contentUri = DocumentsContract.buildDocumentUri(URI_AUTHORITY, documentId)
-    openDocumentTree(context, contentUri)
-  }
+  fun documentUri(documentId: String) =
+    DocumentsContract.buildDocumentUri(URI_AUTHORITY, documentId)
+
+  fun childDocumentsUri(parentDocumentId: String) =
+    DocumentsContract.buildChildDocumentsUri(URI_AUTHORITY, parentDocumentId)
+
+  fun openDocumentTree(context: Context, documentId: String) =
+    openDocumentTree(context, documentUri(documentId))
 
   fun openDocumentTree(context: Context, contentUri: Uri) {
     val intent = Intent(Intent.ACTION_VIEW).apply {
