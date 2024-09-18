@@ -47,15 +47,16 @@ fun File.makePublic() {
 }
 
 fun File.isParentOf(childCandidate: File, strict: Boolean = true): Boolean {
-  var parentOfChild = childCandidate.canonicalFile
+  var parentOfChild: File? = childCandidate.canonicalFile
 
   if (strict)
-    parentOfChild = parentOfChild.parentFile
+    parentOfChild = parentOfChild?.parentFile
 
   while (parentOfChild != null) {
     if (parentOfChild.equals(canonicalFile)) return true
     parentOfChild = parentOfChild.parentFile
   }
+
   return false
 }
 
