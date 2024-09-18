@@ -1,6 +1,6 @@
 /*
  * Tinc Mesh VPN: Android client and user interface
- * Copyright (C) 2017-2023 Euxane P. TRAN-GIRARD
+ * Copyright (C) 2017-2024 Euxane P. TRAN-GIRARD
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -50,13 +50,12 @@ object AppPaths {
   private val context by lazy { App.getContext() }
 
   private fun privateCacheDir() = context.cacheDir!!
-  private fun publicCacheDir() = context.externalCacheDir!!
-  private fun publicFilesDir() = context.getExternalFilesDir(null)
+  private fun privateFilesDir() = context.filesDir
   private fun binDir() = File(context.applicationInfo.nativeLibraryDir)
 
   fun runtimeDir() = withDir(File(privateCacheDir(), APP_TINC_RUNTIME_DIR))
-  fun logDir() = withDir(File(publicCacheDir(), APP_LOG_DIR))
-  fun confDir() = withDir(File(publicFilesDir(), APP_TINC_NETWORKS_DIR))
+  fun logDir() = withDir(File(privateCacheDir(), APP_LOG_DIR))
+  fun confDir() = withDir(File(privateFilesDir(), APP_TINC_NETWORKS_DIR))
 
   fun confDir(netName: String) = File(confDir(), netName)
   fun hostsDir(netName: String) = File(confDir(netName), NET_HOSTS_DIR)
