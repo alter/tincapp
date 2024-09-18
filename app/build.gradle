@@ -99,7 +99,7 @@ dependencies {
   // commons-configuration2:2.4 requires support for interface default methods, not available on SDK <24
   implementation('org.apache.commons:commons-configuration2:2.3') { exclude group: 'commons-logging', module: 'commons-logging' }
   implementation('commons-beanutils:commons-beanutils:1.9.3') { exclude group: 'commons-logging', module: 'commons-logging' }
-  implementation('commons-io:commons-io:2.6') { exclude group: 'commons-logging', module: 'commons-logging' }
+  implementation('commons-io:commons-io:2.13.0') { exclude group: 'commons-logging', module: 'commons-logging' }
 }
 
 repositories {
