@@ -25,7 +25,7 @@ import java.io.FileNotFoundException
 import java.io.FileWriter
 
 /**
- * @author pacien
+ * @author euxane
  */
 object TincKeyring {
   fun needsPassphrase(netName: String) = try {

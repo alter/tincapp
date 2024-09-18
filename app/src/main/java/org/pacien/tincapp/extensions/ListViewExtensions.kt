@@ -23,7 +23,7 @@ import android.widget.ArrayAdapter
 import android.widget.ListView
 
 /**
- * @author pacien
+ * @author euxane
  */
 
 fun <T> ArrayAdapter<T>.setElements(elements: Collection<T>?) {

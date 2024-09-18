@@ -26,7 +26,7 @@ import android.view.ViewGroup
 import kotlinx.android.synthetic.main.base_activity.*
 
 /**
- * @author pacien
+ * @author euxane
  */
 abstract class BaseFragment : Fragment() {
   private val rootView by lazy { base_activity_frame }

@@ -30,7 +30,7 @@ import org.pacien.tincapp.activities.configure.tools.JoinNetworkToolDialogFragme
 import org.pacien.tincapp.databinding.ConfigureToolsFragmentBinding
 
 /**
- * @author pacien
+ * @author euxane
  */
 class ToolsFragment : BaseFragment() {
   private val generateConfigTool by lazy { GenerateConfigToolDialogFragment() }

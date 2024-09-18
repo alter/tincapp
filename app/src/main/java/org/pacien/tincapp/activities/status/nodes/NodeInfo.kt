@@ -24,7 +24,7 @@ import java.util.regex.Matcher
 import java.util.regex.Pattern
 
 /**
- * @author pacien
+ * @author euxane
  */
 data class NodeInfo(val name: String,
                     val id: String,

@@ -32,7 +32,7 @@ import org.pacien.tincapp.databinding.ConfigureToolsDialogNetworkJoinBinding
 import org.pacien.tincapp.utils.makePublic
 
 /**
- * @author pacien
+ * @author euxane
  */
 class JoinNetworkToolDialogFragment : ConfigurationToolDialogFragment() {
   private val scanner by lazy { IntentIntegrator.forSupportFragment(this) }

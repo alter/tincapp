@@ -26,7 +26,7 @@ import java.io.IOException
  * Migrates the configuration from the private storage (used before version 0.38) to the
  * user-accessible storage (through the USB storage mode).
  *
- * @author pacien
+ * @author euxane
  */
 class StorageMigrator {
   private val log by lazy { LoggerFactory.getLogger(this.javaClass)!! }

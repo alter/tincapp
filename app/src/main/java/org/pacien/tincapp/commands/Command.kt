@@ -21,7 +21,7 @@ package org.pacien.tincapp.commands
 import java.util.*
 
 /**
- * @author pacien
+ * @author euxane
  */
 internal class Command(private val cmd: String) {
   private data class Option(val key: String, val value: String?) {

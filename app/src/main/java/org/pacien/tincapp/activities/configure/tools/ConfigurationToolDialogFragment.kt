@@ -30,7 +30,7 @@ import org.pacien.tincapp.extensions.Java.exceptionallyAccept
 import java.util.regex.Pattern
 
 /**
- * @author pacien
+ * @author euxane
  */
 abstract class ConfigurationToolDialogFragment : BaseDialogFragment() {
   private val networkNamePattern by lazy { Pattern.compile("^[^\\x00/]*$") }

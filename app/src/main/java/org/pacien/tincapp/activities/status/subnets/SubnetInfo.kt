@@ -22,7 +22,7 @@ import java.util.regex.Matcher
 import java.util.regex.Pattern
 
 /**
- * @author pacien
+ * @author euxane
  */
 data class SubnetInfo(val ipRange: String, val owner: String) {
   companion object {

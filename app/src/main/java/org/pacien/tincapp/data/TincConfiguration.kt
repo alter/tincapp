@@ -24,7 +24,7 @@ import org.pacien.tincapp.extensions.ApacheConfiguration.getFile
 import java.io.File
 
 /**
- * @author pacien
+ * @author euxane
  */
 data class TincConfiguration(val ed25519PrivateKeyFile: File? = null,
                              val privateKeyFile: File? = null) {

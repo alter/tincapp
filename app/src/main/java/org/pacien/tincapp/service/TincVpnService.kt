@@ -48,7 +48,7 @@ import java.io.FileNotFoundException
 import java.security.AccessControlException
 
 /**
- * @author pacien
+ * @author euxane
  */
 class TincVpnService : VpnService() {
   private val log by lazy { LoggerFactory.getLogger(this.javaClass)!! }

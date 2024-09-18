@@ -36,7 +36,7 @@ import org.pacien.tincapp.extensions.setElements
 import org.pacien.tincapp.service.TincVpnService
 
 /**
- * @author pacien
+ * @author euxane
  */
 class NodeListFragment : BaseFragment() {
   private val vpnService = TincVpnService

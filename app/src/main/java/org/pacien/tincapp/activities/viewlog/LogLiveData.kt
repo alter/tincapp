@@ -25,7 +25,7 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 
 /**
- * @author pacien
+ * @author euxane
  */
 class LogLiveData(private val netName: String, private val logLevel: Int, private val logLineSize: Int)
   : SelfRefreshingLiveData<List<String>>(250, TimeUnit.MILLISECONDS) {

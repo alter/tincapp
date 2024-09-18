@@ -29,7 +29,7 @@ import org.pacien.tincapp.utils.TincKeyring
 import org.pacien.tincapp.extensions.View.on
 
 /**
- * @author pacien
+ * @author euxane
  */
 class ConnectionStarter(private val parentActivity: StartActivity) {
   private var netName: String? = null

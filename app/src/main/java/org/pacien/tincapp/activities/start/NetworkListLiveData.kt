@@ -23,7 +23,7 @@ import org.pacien.tincapp.context.AppPaths
 import java.util.concurrent.TimeUnit
 
 /**
- * @author pacien
+ * @author euxane
  */
 class NetworkListLiveData : SelfRefreshingLiveData<List<String>>(1, TimeUnit.SECONDS) {
   private val appPaths = AppPaths

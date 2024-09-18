@@ -27,7 +27,7 @@ import org.pacien.tincapp.context.AppPaths
 import org.pacien.tincapp.utils.makePublic
 
 /**
- * @author pacien
+ * @author euxane
  */
 class GenerateConfigToolDialogFragment : ConfigurationToolDialogFragment() {
   override fun onCreateDialog(savedInstanceState: Bundle?) =

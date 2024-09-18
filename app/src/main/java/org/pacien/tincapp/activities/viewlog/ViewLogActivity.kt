@@ -31,7 +31,7 @@ import org.pacien.tincapp.R
 import org.pacien.tincapp.activities.BaseActivity
 
 /**
- * @author pacien
+ * @author euxane
  */
 class ViewLogActivity : BaseActivity() {
   private val viewModel by lazy { ViewModelProviders.of(this).get(LogViewModel::class.java) }

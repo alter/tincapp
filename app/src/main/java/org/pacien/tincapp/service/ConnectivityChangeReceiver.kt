@@ -28,7 +28,7 @@ import org.slf4j.LoggerFactory
 import java.lang.IllegalArgumentException
 
 /**
- * @author pacien
+ * @author euxane
  */
 object ConnectivityChangeReceiver : BroadcastReceiver() {
   private val log by lazy { LoggerFactory.getLogger(this.javaClass)!! }

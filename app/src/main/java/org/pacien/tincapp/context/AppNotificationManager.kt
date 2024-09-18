@@ -22,7 +22,7 @@ import android.content.Context
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener
 
 /**
- * @author pacien
+ * @author euxane
  */
 class AppNotificationManager(private val context: Context) {
   data class ErrorNotification(

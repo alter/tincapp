@@ -28,7 +28,7 @@ import org.pacien.tincapp.utils.PemUtils
 import java.io.FileNotFoundException
 
 /**
- * @author pacien
+ * @author euxane
  */
 object TincApp {
   private val SCRIPT_SUFFIXES = listOf("-up", "-down", "-created", "-accepted")

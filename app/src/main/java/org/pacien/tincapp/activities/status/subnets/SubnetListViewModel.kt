@@ -21,7 +21,7 @@ package org.pacien.tincapp.activities.status.subnets
 import androidx.lifecycle.ViewModel
 
 /**
- * @author pacien
+ * @author euxane
  */
 class SubnetListViewModel : ViewModel() {
   val nodeList by lazy { SubnetListLiveData() }

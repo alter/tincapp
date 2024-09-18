@@ -27,7 +27,7 @@ import org.pacien.tincapp.context.AppPaths
 import org.pacien.tincapp.databinding.ConfigureToolsPathInfoFragmentBinding
 
 /**
- * @author pacien
+ * @author euxane
  */
 class PathInfoFragment : BaseFragment() {
   private val appPaths = AppPaths

@@ -31,7 +31,7 @@ import org.pacien.tincapp.extensions.Java.applyIgnoringException
 import java.io.File
 
 /**
- * @author pacien
+ * @author euxane
  */
 data class VpnInterfaceConfiguration(val addresses: List<CidrAddress> = emptyList(),
                                      val routes: List<CidrAddress> = emptyList(),

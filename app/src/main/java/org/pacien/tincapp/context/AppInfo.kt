@@ -23,7 +23,7 @@ import org.pacien.tincapp.BuildConfig
 import org.pacien.tincapp.R
 
 /**
- * @author pacien
+ * @author euxane
  */
 object AppInfo {
   private fun appVersion(): String = App.getResources().getString(

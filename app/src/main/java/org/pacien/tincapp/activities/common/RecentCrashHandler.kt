@@ -28,7 +28,7 @@ import org.pacien.tincapp.context.CrashRecorder
 import java.io.File
 
 /**
- * @author pacien
+ * @author euxane
  */
 class RecentCrashHandler(private val parentActivity: BaseActivity) {
   private val resources by lazy { parentActivity.resources!! }

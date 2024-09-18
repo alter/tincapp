@@ -22,7 +22,7 @@ import java8.util.concurrent.CompletableFuture
 import org.pacien.tincapp.context.AppPaths
 
 /**
- * @author pacien
+ * @author euxane
  */
 object Tinc {
   private fun newCommand(netName: String): Command =

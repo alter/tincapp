@@ -21,7 +21,7 @@ package org.pacien.tincapp.data
 import org.apache.commons.configuration2.ex.ConversionException
 
 /**
- * @author pacien
+ * @author euxane
  */
 data class CidrAddress(val address: String, val prefix: Int) {
   companion object {

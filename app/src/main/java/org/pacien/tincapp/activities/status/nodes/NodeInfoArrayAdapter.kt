@@ -27,7 +27,7 @@ import android.widget.ArrayAdapter
 import org.pacien.tincapp.databinding.StatusNodeListItemBinding
 
 /**
- * @author pacien
+ * @author euxane
  */
 class NodeInfoArrayAdapter(context: Context, private val onItemClick: (NodeInfo) -> Unit) : ArrayAdapter<NodeInfo>(context, -1) {
   private val layoutInflater = LayoutInflater.from(context)!!

@@ -21,7 +21,7 @@ package org.pacien.tincapp.activities.start
 import androidx.lifecycle.ViewModel
 
 /**
- * @author pacien
+ * @author euxane
  */
 class NetworkListViewModel : ViewModel() {
   val networkList by lazy { NetworkListLiveData() }

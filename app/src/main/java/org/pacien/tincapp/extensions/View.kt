@@ -21,7 +21,7 @@ package org.pacien.tincapp.extensions
 import android.widget.EditText
 
 /**
- * @author pacien
+ * @author euxane
  */
 object View {
 

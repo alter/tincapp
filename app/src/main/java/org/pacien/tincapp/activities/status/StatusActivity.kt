@@ -39,7 +39,7 @@ import org.pacien.tincapp.intent.BroadcastMapper
 import org.pacien.tincapp.service.TincVpnService
 
 /**
- * @author pacien
+ * @author euxane
  */
 class StatusActivity : BaseActivity() {
   private val recentCrashHandler by lazy { RecentCrashHandler(this) }

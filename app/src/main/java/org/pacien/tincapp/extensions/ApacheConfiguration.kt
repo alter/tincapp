@@ -23,7 +23,7 @@ import org.pacien.tincapp.data.CidrAddress
 import java.io.File
 
 /**
- * @author pacien
+ * @author euxane
  */
 object ApacheConfiguration {
   fun Configuration.getStringList(key: String): List<String> = getList(String::class.java, key, emptyList())

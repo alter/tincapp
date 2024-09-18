@@ -24,7 +24,7 @@ import org.pacien.tincapp.service.TincVpnService
 import java.util.concurrent.TimeUnit
 
 /**
- * @author pacien
+ * @author euxane
  */
 class NodeListLiveData : SelfRefreshingLiveData<List<NodeInfo>>(1, TimeUnit.SECONDS) {
   private val vpnService = TincVpnService

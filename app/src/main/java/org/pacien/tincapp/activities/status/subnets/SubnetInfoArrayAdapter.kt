@@ -27,7 +27,7 @@ import android.widget.ArrayAdapter
 import org.pacien.tincapp.databinding.StatusSubnetListItemBinding
 
 /**
- * @author pacien
+ * @author euxane
  */
 class SubnetInfoArrayAdapter(context: Context) : ArrayAdapter<SubnetInfo>(context, -1) {
   private val layoutInflater = LayoutInflater.from(context)!!

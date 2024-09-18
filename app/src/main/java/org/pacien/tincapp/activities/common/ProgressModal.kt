@@ -29,7 +29,7 @@ import org.pacien.tincapp.R
 /**
  * An indefinite progress dialog replacing the deprecated `android.app.ProgressDialog`.
  *
- * @author pacien
+ * @author euxane
  */
 object ProgressModal {
   fun show(context: Activity, text: String): AlertDialog {

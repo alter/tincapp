@@ -22,7 +22,7 @@ import android.net.Uri
 import org.pacien.tincapp.BuildConfig
 
 /**
- * @author pacien
+ * @author euxane
  */
 object Actions {
   const val PREFIX = "${BuildConfig.APPLICATION_ID}.intent.action"

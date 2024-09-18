@@ -25,7 +25,7 @@ import org.pacien.tincapp.context.App
 
 /**
  * @param pages ordered list of title and fragment pairs
- * @author pacien
+ * @author euxane
  */
 class FragmentListPagerAdapter(private val pages: List<Pair<Int, BaseFragment>>,
                                fragmentManager: FragmentManager) : FragmentPagerAdapter(fragmentManager) {

@@ -34,7 +34,7 @@ import org.pacien.tincapp.extensions.hideBottomSeparator
 import org.pacien.tincapp.extensions.setElements
 
 /**
- * @author pacien
+ * @author euxane
  */
 class NetworkListFragment : BaseFragment() {
   private val networkListViewModel by lazy { NetworkListViewModel() }

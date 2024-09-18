@@ -26,7 +26,7 @@ import android.view.View
 import android.view.ViewGroup
 
 /**
- * @author pacien
+ * @author euxane
  */
 abstract class BaseDialogFragment : DialogFragment() {
   protected val parentActivity by lazy { activity as BaseActivity }

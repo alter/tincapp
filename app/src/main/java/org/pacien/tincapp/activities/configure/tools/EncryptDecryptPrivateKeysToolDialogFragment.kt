@@ -24,7 +24,7 @@ import org.pacien.tincapp.R
 import org.pacien.tincapp.commands.TincApp
 
 /**
- * @author pacien
+ * @author euxane
  */
 class EncryptDecryptPrivateKeysToolDialogFragment : ConfigurationToolDialogFragment() {
   override fun onCreateDialog(savedInstanceState: Bundle?) =

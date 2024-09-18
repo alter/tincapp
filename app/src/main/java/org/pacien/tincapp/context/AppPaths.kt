@@ -22,7 +22,7 @@ import java.io.File
 import java.io.FileNotFoundException
 
 /**
- * @author pacien
+ * @author euxane
  *
  * @implNote Logs and PID files are stored in the cache directory for automatic collection.
  */

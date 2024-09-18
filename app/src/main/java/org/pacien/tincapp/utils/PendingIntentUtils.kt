@@ -24,7 +24,7 @@ import android.content.Intent
 import android.os.Build
 
 /**
- * @author pacien
+ * @author euxane
  */
 object PendingIntentUtils {
   fun getActivity(context: Context, requestCode: Int, intent: Intent, flags: Int): PendingIntent {

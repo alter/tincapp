@@ -29,7 +29,7 @@ import org.pacien.tincapp.context.AppNotificationManager
 import org.pacien.tincapp.databinding.StartErrorNotificationBinding
 
 /**
- * @author pacien
+ * @author euxane
  */
 class ErrorNotificationFragment : BaseFragment() {
   private val notificationManager by lazy { AppNotificationManager(context!!) }

@@ -26,7 +26,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import org.pacien.tincapp.context.App
 
 /**
- * @author pacien
+ * @author euxane
  */
 class BroadcastMapper(private val actionHandlers: Map<String, () -> Unit>) : BroadcastReceiver() {
   private val broadcastManager = LocalBroadcastManager.getInstance(App.getContext())

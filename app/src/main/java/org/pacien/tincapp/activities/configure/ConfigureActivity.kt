@@ -23,7 +23,7 @@ import org.pacien.tincapp.R
 import org.pacien.tincapp.activities.BaseActivity
 
 /**
- * @author pacien
+ * @author euxane
  */
 class ConfigureActivity : BaseActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {

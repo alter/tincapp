@@ -21,7 +21,7 @@ package org.pacien.tincapp.extensions
 import java8.util.concurrent.CompletableFuture
 
 /**
- * @author pacien
+ * @author euxane
  */
 object Java {
 

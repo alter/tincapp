@@ -31,7 +31,7 @@ import java.io.FileReader
 import java.io.Writer
 
 /**
- * @author pacien
+ * @author euxane
  */
 object PemUtils {
   private const val DEK_INFO_HEADER_KEY = "DEK-Info"

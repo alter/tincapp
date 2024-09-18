@@ -22,7 +22,7 @@ import androidx.lifecycle.ViewModel
 import org.pacien.tincapp.service.TincVpnService
 
 /**
- * @author pacien
+ * @author euxane
  */
 class LogViewModel : ViewModel() {
   private val logLevelNumeric = 5

@@ -27,7 +27,7 @@ import java.io.InputStream
 import java.io.InputStreamReader
 
 /**
- * @author pacien
+ * @author euxane
  */
 internal object Executor {
   class CommandExecutionException(msg: String) : Exception(msg)

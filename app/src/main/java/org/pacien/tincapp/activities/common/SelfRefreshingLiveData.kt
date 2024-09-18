@@ -24,7 +24,7 @@ import java.util.concurrent.ScheduledFuture
 import java.util.concurrent.TimeUnit
 
 /**
- * @author pacien
+ * @author euxane
  */
 abstract class SelfRefreshingLiveData<T>(private val refreshInterval: Long, private val timeUnit: TimeUnit) : LiveData<T>() {
   private val scheduledExecutor = Executors.newSingleThreadScheduledExecutor()

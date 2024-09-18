@@ -32,7 +32,7 @@ import org.pacien.tincapp.context.App
 import org.pacien.tincapp.context.AppInfo
 
 /**
- * @author pacien
+ * @author euxane
  */
 abstract class BaseActivity : AppCompatActivity() {
   private val rootView by lazy { base_activity_frame!! }

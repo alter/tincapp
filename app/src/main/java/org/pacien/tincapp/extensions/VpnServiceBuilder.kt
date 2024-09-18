@@ -24,7 +24,7 @@ import org.pacien.tincapp.data.VpnInterfaceConfiguration
 import org.pacien.tincapp.extensions.Java.applyIgnoringException
 
 /**
- * @author pacien
+ * @author euxane
  */
 object VpnServiceBuilder {
   private fun <T> exceptWithCidr(cidr: CidrAddress, func: () -> T) = try {

@@ -21,7 +21,7 @@ package org.pacien.tincapp.context
 import org.slf4j.Logger
 
 /**
- * @author pacien
+ * @author euxane
  */
 class CrashRecorder(private val logger: Logger,
                     private val upstreamCrashHandler: Thread.UncaughtExceptionHandler) : Thread.UncaughtExceptionHandler {

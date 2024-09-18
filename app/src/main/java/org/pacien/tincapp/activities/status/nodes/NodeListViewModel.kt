@@ -21,7 +21,7 @@ package org.pacien.tincapp.activities.status.nodes
 import androidx.lifecycle.ViewModel
 
 /**
- * @author pacien
+ * @author euxane
  */
 class NodeListViewModel : ViewModel() {
   val nodeList by lazy { NodeListLiveData() }

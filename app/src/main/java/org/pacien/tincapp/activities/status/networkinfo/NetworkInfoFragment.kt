@@ -27,7 +27,7 @@ import org.pacien.tincapp.databinding.StatusNetworkInfoFragmentBinding
 import org.pacien.tincapp.service.TincVpnService
 
 /**
- * @author pacien
+ * @author euxane
  */
 class NetworkInfoFragment : BaseFragment() {
   private val vpnService by lazy { TincVpnService }

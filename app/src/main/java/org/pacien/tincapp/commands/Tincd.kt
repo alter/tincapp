@@ -23,7 +23,7 @@ import org.pacien.tincapp.context.AppPaths
 import java.io.File
 
 /**
- * @author pacien
+ * @author euxane
  */
 object Tincd {
   fun start(netName: String, device: String, ed25519PrivateKey: File? = null, rsaPrivateKey: File? = null): CompletableFuture<Unit> =

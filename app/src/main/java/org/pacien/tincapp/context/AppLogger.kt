@@ -28,7 +28,7 @@ import ch.qos.logback.core.FileAppender
 import org.slf4j.LoggerFactory
 
 /**
- * @author pacien
+ * @author euxane
  */
 object AppLogger {
   private const val LOGCAT_PATTERN = "[%thread] %msg%n%rEx"

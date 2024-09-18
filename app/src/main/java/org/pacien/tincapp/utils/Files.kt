@@ -22,7 +22,7 @@ import android.annotation.SuppressLint
 import java.io.File
 
 /**
- * @author pacien
+ * @author euxane
  */
 
 fun File.makePrivate() {

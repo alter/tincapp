@@ -23,7 +23,7 @@ import org.pacien.tincapp.context.App
 import org.pacien.tincapp.data.CidrAddress
 
 /**
- * @author pacien
+ * @author euxane
  */
 object VpnInterfaceConfigurationFormatter {
   private val resources by lazy { App.getResources() }

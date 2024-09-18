@@ -37,7 +37,7 @@ import org.pacien.tincapp.intent.BroadcastMapper
 import org.pacien.tincapp.service.TincVpnService
 
 /**
- * @author pacien
+ * @author euxane
  */
 class StartActivity : BaseActivity() {
   val permissionRequestCode = 0
