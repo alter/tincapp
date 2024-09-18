@@ -98,7 +98,18 @@ abstract class BaseActivity : AppCompatActivity() {
   fun notify(@StringRes msg: Int) = Snackbar.make(rootView, msg, Snackbar.LENGTH_LONG).show()
   fun notify(msg: String) = Snackbar.make(rootView, msg, Snackbar.LENGTH_LONG).show()
 
-  fun showErrorDialog(msg: String): AlertDialog = AlertDialog.Builder(this)
-    .setTitle(R.string.generic_title_error).setMessage(msg)
-    .setPositiveButton(R.string.generic_action_close) { _, _ -> Unit }.show()
+  fun showErrorDialog(@StringRes msg: Int, docTopic: String? = null) =
+    showErrorDialog(getString(msg), docTopic)
+
+  fun showErrorDialog(msg: String, docTopic: String? = null): AlertDialog =
+    AlertDialog.Builder(this)
+      .setTitle(R.string.generic_title_error).setMessage(msg)
+      .setPositiveButton(R.string.generic_action_close) { _, _ -> Unit }
+      .apply {
+        if (docTopic != null)
+          setNeutralButton(R.string.notification_error_action_open_manual) { _, _ ->
+            App.openURL(getString(R.string.app_doc_url_format, docTopic))
+        }
+      }
+      .show()
 }
