@@ -1,6 +1,6 @@
 /*
  * Tinc Mesh VPN: Android client and user interface
- * Copyright (C) 2017-2023 Euxane P. TRAN-GIRARD
+ * Copyright (C) 2017-2024 Euxane P. TRAN-GIRARD
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,6 +27,8 @@ import org.pacien.tincapp.activities.BaseFragment
 import org.pacien.tincapp.context.App
 import org.pacien.tincapp.context.AppNotificationManager
 import org.pacien.tincapp.databinding.StartErrorNotificationBinding
+import org.pacien.tincapp.storageprovider.BrowseFilesIntents
+import org.pacien.tincapp.storageprovider.FilesDocumentsProvider
 
 /**
  * @author euxane
@@ -56,5 +58,7 @@ class ErrorNotificationFragment : BaseFragment() {
     val maybeError = notificationManager.getError()
     viewBinding.errorNotification = maybeError
     viewBinding.openManualAction = { App.openURL(maybeError?.manualLink!!) }
+    viewBinding.openConfigDirAction = { openDocumentTree(BrowseFilesIntents.networkConfigDirDocId(maybeError?.configDir)) }
+    viewBinding.openLogDirAction = { openDocumentTree(FilesDocumentsProvider.VIRTUAL_ROOT_LOGS) }
   }
 }

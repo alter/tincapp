@@ -33,6 +33,14 @@
 			name="openManualAction"
 			type="kotlin.jvm.functions.Function0&lt;kotlin.Unit>"/>
 
+		<variable
+			name="openConfigDirAction"
+			type="kotlin.jvm.functions.Function0&lt;kotlin.Unit>"/>
+
+		<variable
+			name="openLogDirAction"
+			type="kotlin.jvm.functions.Function0&lt;kotlin.Unit>"/>
+
 	</data>
 
 	<LinearLayout
@@ -59,6 +67,28 @@
 				<TextView
 					style="@style/AppTheme.BlockTitle"
 					android:text="@string/notification_error_action_open_manual" />
+
+			</LinearLayout>
+
+			<LinearLayout
+				style="@style/AppTheme.ListBlock.Clickable"
+				android:visibility="@{errorNotification.configDir == null ? View.GONE : View.VISIBLE}"
+				android:onClick="@{() -> openConfigDirAction.invoke()}">
+
+				<TextView
+					style="@style/AppTheme.BlockTitle"
+					android:text="@string/notification_error_action_open_config_dir" />
+
+			</LinearLayout>
+
+			<LinearLayout
+				style="@style/AppTheme.ListBlock.Clickable"
+				android:visibility="@{errorNotification.proposeLogs ? View.VISIBLE : View.GONE}"
+				android:onClick="@{() -> openLogDirAction.invoke()}">
+
+				<TextView
+					style="@style/AppTheme.BlockTitle"
+					android:text="@string/notification_error_action_open_logs_dir" />
 
 			</LinearLayout>
 

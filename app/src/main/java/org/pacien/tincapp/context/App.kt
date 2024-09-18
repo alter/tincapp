@@ -70,8 +70,20 @@ class App : Application() {
         .packageManager
         .getApplicationInfo(BuildConfig.APPLICATION_ID, 0)
 
-    fun alert(@StringRes title: Int, msg: String, manualLink: String? = null) =
-      notificationManager.notifyError(appContext!!.getString(title), msg, manualLink)
+    fun alert(
+      @StringRes title: Int,
+      msg: String,
+      manualLink: String? = null,
+      configDir: String? = null,
+      proposeLogs: Boolean = false,
+    ) =
+      notificationManager.notifyError(
+        appContext!!.getString(title),
+        msg,
+        manualLink,
+        configDir,
+        proposeLogs,
+      )
 
     fun openURL(url: String) {
       val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))

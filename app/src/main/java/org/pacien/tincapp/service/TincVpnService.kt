@@ -123,11 +123,23 @@ class TincVpnService : VpnService() {
     val interfaceCfg = try {
       VpnInterfaceConfiguration.fromIfaceConfiguration(AppPaths.existing(AppPaths.netConfFile(netName)))
     } catch (e: FileNotFoundException) {
-      return reportError(resources.getString(R.string.notification_error_message_network_config_not_found_format, e.defaultMessage()), e, "configuration")
+      return reportError(
+        resources.getString(R.string.notification_error_message_network_config_not_found_format, e.defaultMessage()),
+        e,
+        docTopic = "configuration"
+      )
     } catch (e: ConversionException) {
-      return reportError(resources.getString(R.string.notification_error_message_network_config_invalid_format, e.defaultMessage()), e, "network-interface")
+      return reportError(
+        resources.getString(R.string.notification_error_message_network_config_invalid_format, e.defaultMessage()),
+        e,
+        docTopic = "network-interface",
+      )
     } catch (e: Exception) {
-      return reportError(resources.getString(R.string.notification_error_message_could_not_read_network_configuration_format, e.defaultMessage()), e)
+      return reportError(
+        resources.getString(R.string.notification_error_message_could_not_read_network_configuration_format, e.defaultMessage()),
+        e,
+        configDir = netName,
+      )
     }
 
     val deviceFd = try {
@@ -138,11 +150,24 @@ class TincVpnService : VpnService() {
         .also { if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) it.setMetered(false) }
         .establish()!!
     } catch (e: IllegalArgumentException) {
-      return reportError(resources.getString(R.string.notification_error_message_network_config_invalid_format, e.defaultMessage()), e, "network-interface")
+      return reportError(
+        resources.getString(R.string.notification_error_message_network_config_invalid_format, e.defaultMessage()),
+        e,
+        docTopic = "network-interface",
+        configDir = netName,
+      )
     } catch (e: NullPointerException) {
-      return reportError(resources.getString(R.string.notification_error_message_could_not_bind_iface), e)
+      return reportError(
+        resources.getString(R.string.notification_error_message_could_not_bind_iface),
+        e,
+        proposeLogs = true,
+      )
     } catch (e: Exception) {
-      return reportError(resources.getString(R.string.notification_error_message_could_not_configure_iface, e.defaultMessage()), e)
+      return reportError(
+        resources.getString(R.string.notification_error_message_could_not_configure_iface, e.defaultMessage()),
+        e,
+        proposeLogs = true,
+      )
     }
 
     val serverSocket = LocalServerSocket(DEVICE_FD_ABSTRACT_SOCKET)
@@ -156,7 +181,11 @@ class TincVpnService : VpnService() {
       deviceFd.close()
 
       if (exception != null) {
-        reportError(resources.getString(R.string.notification_error_message_daemon_exited, exception.cause!!.defaultMessage()), exception)
+        reportError(
+          resources.getString(R.string.notification_error_message_daemon_exited, exception.cause!!.defaultMessage()),
+          exception,
+          proposeLogs = true,
+        )
       } else {
         log.info("tinc daemon started.")
         broadcastEvent(Actions.EVENT_CONNECTED)
@@ -181,15 +210,26 @@ class TincVpnService : VpnService() {
     } ?: CompletableFuture.completedFuture(Unit)
   }
 
-  private fun reportError(msg: String, e: Throwable? = null, docTopic: String? = null) {
+  private fun reportError(
+    msg: String,
+    e: Throwable? = null,
+    docTopic: String? = null,
+    configDir: String? = null,
+    proposeLogs: Boolean = false,
+  ) {
     if (e != null)
       log.error(msg, e)
     else
       log.error(msg)
 
     broadcastEvent(Actions.EVENT_ABORTED)
-    App.alert(R.string.notification_error_title_unable_to_start_tinc, msg,
-      if (docTopic != null) resources.getString(R.string.app_doc_url_format, docTopic) else null)
+    App.alert(
+      R.string.notification_error_title_unable_to_start_tinc,
+      msg,
+      if (docTopic != null) resources.getString(R.string.app_doc_url_format, docTopic) else null,
+      configDir,
+      proposeLogs,
+    )
   }
 
   private fun broadcastEvent(event: String) {

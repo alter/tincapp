@@ -24,6 +24,12 @@ import android.net.Uri
 import android.provider.DocumentsContract.Document
 
 object BrowseFilesIntents {
+  fun networkConfigDirDocId(networkName: String?): String =
+    when (networkName) {
+      null -> FilesDocumentsProvider.VIRTUAL_ROOT_NETWORKS
+      else -> FilesDocumentsProvider.VIRTUAL_ROOT_NETWORKS + "/" + networkName
+    }
+
   fun openDocumentTree(context: Context, documentId: String) =
     openDocumentTree(context, FilesDocumentsProvider.documentUri(documentId))
 
