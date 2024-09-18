@@ -3,6 +3,9 @@
 This file lists notable changes that have been made to the application on each release.
 Releases are tracked and referred to using git tags.
 
+## v0.41 -- (next release)
+- rename app from "Tinc App" to "Tinc Mesh VPN" (more descriptive)
+
 ## v0.40 -- 2024-08-31
 - update Android SDK target API to 34 (Android 14)
 - add monochrome app icon
