@@ -24,7 +24,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import android.view.Menu
 import android.view.MenuItem
-import kotlinx.android.synthetic.main.start_activity.*
 import org.pacien.tincapp.R
 import org.pacien.tincapp.activities.BaseActivity
 import org.pacien.tincapp.activities.common.ProgressModal
@@ -32,6 +31,7 @@ import org.pacien.tincapp.activities.common.RecentCrashHandler
 import org.pacien.tincapp.activities.configure.ConfigureActivity
 import org.pacien.tincapp.activities.status.StatusActivity
 import org.pacien.tincapp.context.App
+import org.pacien.tincapp.databinding.StartActivityBinding
 import org.pacien.tincapp.intent.Actions
 import org.pacien.tincapp.intent.BroadcastMapper
 import org.pacien.tincapp.service.TincVpnService
@@ -48,11 +48,13 @@ class StartActivity : BaseActivity() {
     Actions.EVENT_ABORTED to this::onVpnStartError
   ))
 
+  private val startActivityBinding by lazy { StartActivityBinding.inflate(layoutInflater) }
+
   private var connectDialog: AlertDialog? = null
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    setContentView(R.layout.start_activity)
+    setContentView(startActivityBinding.root)
     initNetworkListFragment()
 
     if (intent.action == Actions.ACTION_CONNECT && intent.data?.schemeSpecificPart != null)
@@ -60,7 +62,7 @@ class StartActivity : BaseActivity() {
   }
 
   private fun initNetworkListFragment() {
-    val fragment = start_activity_network_list_fragment as NetworkListFragment
+    val fragment = supportFragmentManager.findFragmentById(R.id.start_activity_network_list_fragment) as NetworkListFragment
     fragment.connectToNetworkAction = { netName -> connectToNetworkAction(netName) }
   }
 

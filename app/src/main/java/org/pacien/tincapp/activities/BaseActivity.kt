@@ -20,27 +20,26 @@ package org.pacien.tincapp.activities
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.view.*
-import kotlinx.android.synthetic.main.base_activity.*
 import org.pacien.tincapp.R
 import org.pacien.tincapp.context.App
 import org.pacien.tincapp.context.AppInfo
+import org.pacien.tincapp.databinding.BaseActivityBinding
 
 /**
  * @author euxane
  */
 abstract class BaseActivity : AppCompatActivity() {
-  private val rootView by lazy { base_activity_frame!! }
+  val rootView by lazy { BaseActivityBinding.inflate(layoutInflater).root }
   private var active = false
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    super.setContentView(R.layout.base_activity)
+    super.setContentView(rootView)
   }
 
   override fun onCreateOptionsMenu(m: Menu): Boolean {
@@ -96,11 +95,8 @@ abstract class BaseActivity : AppCompatActivity() {
     if (active) super.runOnUiThread(action)
   }
 
-  fun inflate(@LayoutRes layout: Int) = layoutInflater.inflate(layout, rootView, false)!!
-  fun inflate(inflateFunc: (LayoutInflater, ViewGroup?, Boolean) -> View) = inflateFunc(layoutInflater, rootView, false)
-
-  fun notify(@StringRes msg: Int) = Snackbar.make(base_activity_frame, msg, Snackbar.LENGTH_LONG).show()
-  fun notify(msg: String) = Snackbar.make(base_activity_frame, msg, Snackbar.LENGTH_LONG).show()
+  fun notify(@StringRes msg: Int) = Snackbar.make(rootView, msg, Snackbar.LENGTH_LONG).show()
+  fun notify(msg: String) = Snackbar.make(rootView, msg, Snackbar.LENGTH_LONG).show()
 
   fun showErrorDialog(msg: String): AlertDialog = AlertDialog.Builder(this)
     .setTitle(R.string.generic_title_error).setMessage(msg)

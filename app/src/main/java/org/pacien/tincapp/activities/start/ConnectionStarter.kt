@@ -21,9 +21,8 @@ package org.pacien.tincapp.activities.start
 import android.net.VpnService
 import androidx.appcompat.app.AlertDialog
 import android.view.inputmethod.EditorInfo
-import kotlinx.android.synthetic.main.base_activity.*
-import kotlinx.android.synthetic.main.dialog_decrypt_keys.view.*
 import org.pacien.tincapp.R
+import org.pacien.tincapp.databinding.DialogDecryptKeysBinding
 import org.pacien.tincapp.service.TincVpnService
 import org.pacien.tincapp.utils.TincKeyring
 import org.pacien.tincapp.extensions.View.on
@@ -54,18 +53,18 @@ class ConnectionStarter(private val parentActivity: StartActivity) {
   }
 
   private fun askForPassphrase() {
-    val dialogView = parentActivity.layoutInflater.inflate(R.layout.dialog_decrypt_keys, parentActivity.base_activity_frame, false)
+    val dialogViewBinding = DialogDecryptKeysBinding.inflate(parentActivity.layoutInflater, parentActivity.rootView, false)
 
     val dialog = AlertDialog.Builder(parentActivity)
       .setTitle(R.string.decrypt_key_modal_title)
-      .setView(dialogView)
-      .setPositiveButton(R.string.decrypt_key_modal_action_unlock) { _, _ -> tryStart(passphrase = dialogView.passphrase.text.toString()) }
+      .setView(dialogViewBinding.root)
+      .setPositiveButton(R.string.decrypt_key_modal_action_unlock) { _, _ -> tryStart(passphrase = dialogViewBinding.passphrase.text.toString()) }
       .setNegativeButton(R.string.decrypt_key_modal_action_cancel) { _, _ -> Unit }
       .create()
 
-    dialogView.passphrase.on(EditorInfo.IME_ACTION_DONE) {
+    dialogViewBinding.passphrase.on(EditorInfo.IME_ACTION_DONE) {
       dialog.dismiss()
-      tryStart(passphrase = dialogView.passphrase.text.toString())
+      tryStart(passphrase = dialogViewBinding.passphrase.text.toString())
     }
 
     dialog.show()

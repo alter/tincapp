@@ -23,7 +23,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import android.view.Menu
 import android.view.MenuItem
-import kotlinx.android.synthetic.main.status_activity.*
 import org.pacien.tincapp.R
 import org.pacien.tincapp.activities.BaseActivity
 import org.pacien.tincapp.activities.common.FragmentListPagerAdapter
@@ -34,6 +33,7 @@ import org.pacien.tincapp.activities.status.networkinfo.NetworkInfoFragment
 import org.pacien.tincapp.activities.status.nodes.NodeListFragment
 import org.pacien.tincapp.activities.status.subnets.SubnetListFragment
 import org.pacien.tincapp.activities.viewlog.ViewLogActivity
+import org.pacien.tincapp.databinding.StatusActivityBinding
 import org.pacien.tincapp.intent.Actions
 import org.pacien.tincapp.intent.BroadcastMapper
 import org.pacien.tincapp.service.TincVpnService
@@ -53,13 +53,15 @@ class StatusActivity : BaseActivity() {
     R.string.status_activity_title_subnet_list to SubnetListFragment()
   )
 
+  private val statusActivityBinding by lazy { StatusActivityBinding.inflate(layoutInflater) }
+
   private var shutdownDialog: AlertDialog? = null
   private var listNetworksAfterExit = true
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    setContentView(R.layout.status_activity)
-    status_activity_pager.adapter = pagerAdapter
+    setContentView(statusActivityBinding.root)
+    statusActivityBinding.root.adapter = pagerAdapter
     supportActionBar.subtitle = getString(R.string.status_activity_state_connected_to_format, netName)
     handleStartIntentAction(intent.action)
   }

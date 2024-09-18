@@ -26,14 +26,15 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ScrollView
-import kotlinx.android.synthetic.main.view_log_activity.*
 import org.pacien.tincapp.R
 import org.pacien.tincapp.activities.BaseActivity
+import org.pacien.tincapp.databinding.ViewLogActivityBinding
 
 /**
  * @author euxane
  */
 class ViewLogActivity : BaseActivity() {
+  private val viewLogActivityBinding by lazy { ViewLogActivityBinding.inflate(layoutInflater) }
   private val viewModel by lazy { ViewModelProviders.of(this).get(LogViewModel::class.java) }
   private val logObserver: Observer<List<String>> = Observer { showLog(it) }
   private var toggleButton: MenuItem? = null
@@ -41,7 +42,7 @@ class ViewLogActivity : BaseActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     supportActionBar.setDisplayHomeAsUpEnabled(true)
-    setContentView(R.layout.view_log_activity)
+    setContentView(viewLogActivityBinding.root)
     enableLogging(viewModel.logging)
   }
 
@@ -85,9 +86,9 @@ class ViewLogActivity : BaseActivity() {
   private fun showLog(logLines: List<String>?) {
     val logSnippet = logLines?.joinToString("\n\n") ?: ""
 
-    log_view_text.post {
-      log_view_text.text = logSnippet
-      log_view_frame.scrollToBottom()
+    viewLogActivityBinding.logViewText.post {
+      viewLogActivityBinding.logViewText.text = logSnippet
+      viewLogActivityBinding.logViewFrame.scrollToBottom()
     }
   }
 
@@ -109,13 +110,13 @@ class ViewLogActivity : BaseActivity() {
 
   private fun enableScrolling(enabled: Boolean) {
     if (enabled)
-      log_view_frame.setOnTouchListener(null)
+      viewLogActivityBinding.logViewFrame.setOnTouchListener(null)
     else
-      log_view_frame.setOnTouchListener { _, _ -> true }
+      viewLogActivityBinding.logViewFrame.setOnTouchListener { _, _ -> true }
 
-    log_view_frame.isSmoothScrollingEnabled = enabled
-    log_view_text.setTextIsSelectable(enabled)
-    log_view_frame.scrollToBottom()
+    viewLogActivityBinding.logViewFrame.isSmoothScrollingEnabled = enabled
+    viewLogActivityBinding.logViewText.setTextIsSelectable(enabled)
+    viewLogActivityBinding.logViewFrame.scrollToBottom()
   }
 
   private fun ScrollView.scrollToBottom() {
