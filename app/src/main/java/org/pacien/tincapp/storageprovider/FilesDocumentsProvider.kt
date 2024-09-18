@@ -29,6 +29,7 @@ import android.provider.DocumentsContract.Document
 import android.provider.DocumentsContract.Root
 import android.provider.DocumentsProvider
 import androidx.annotation.RequiresApi
+import org.pacien.tincapp.BuildConfig
 import org.pacien.tincapp.R
 import org.pacien.tincapp.context.AppPaths
 import org.pacien.tincapp.utils.isParentOf
@@ -41,8 +42,9 @@ import kotlin.io.path.relativeTo
 
 class FilesDocumentsProvider : DocumentsProvider() {
   companion object {
-    const val ROOT_ID = ""
-    const val ROOT_DOCUMENT_ID = "/"
+    private const val URI_AUTHORITY = BuildConfig.APPLICATION_ID + ".files"
+    private const val ROOT_ID = ""
+    private const val ROOT_DOCUMENT_ID = "/"
     const val VIRTUAL_ROOT_NETWORKS = "networks"
     const val VIRTUAL_ROOT_LOG = "log"
 
@@ -65,6 +67,12 @@ class FilesDocumentsProvider : DocumentsProvider() {
       Document.COLUMN_FLAGS,
       Document.COLUMN_SIZE,
     )
+
+    fun documentUri(documentId: String): Uri =
+      DocumentsContract.buildDocumentUri(URI_AUTHORITY, documentId)
+
+    fun childDocumentsUri(parentDocumentId: String): Uri =
+      DocumentsContract.buildChildDocumentsUri(URI_AUTHORITY, parentDocumentId)
   }
 
   override fun onCreate(): Boolean = true
@@ -95,7 +103,7 @@ class FilesDocumentsProvider : DocumentsProvider() {
     sortOrder: String?
   ): Cursor =
     MatrixCursor(projection ?: DEFAULT_DOCUMENT_PROJECTION).apply {
-      setNotificationUrl(BrowseFilesIntents.childDocumentsUri(parentDocumentId!!))
+      setNotificationUrl(childDocumentsUri(parentDocumentId!!))
       when (parentDocumentId) {
         ROOT_DOCUMENT_ID -> {
           addVirtualDirRow(VIRTUAL_ROOT_NETWORKS, Document.FLAG_DIR_SUPPORTS_CREATE)
@@ -130,7 +138,7 @@ class FilesDocumentsProvider : DocumentsProvider() {
   override fun deleteDocument(documentId: String?) {
     fileForDocumentId(documentId!!).apply {
       if (!deleteRecursively()) throw FileSystemException(this)
-      notifyChange(BrowseFilesIntents.childDocumentsUri(documentIdForFile(parentFile)))
+      notifyChange(childDocumentsUri(documentIdForFile(parentFile!!)))
     }
   }
 
@@ -155,7 +163,7 @@ class FilesDocumentsProvider : DocumentsProvider() {
         else -> createNewFile()
       }
       if (!success) throw FileSystemException(this)
-      notifyChange(BrowseFilesIntents.childDocumentsUri(parentDocumentId))
+      notifyChange(childDocumentsUri(parentDocumentId))
     }.let {
       documentIdForFile(it)
     }

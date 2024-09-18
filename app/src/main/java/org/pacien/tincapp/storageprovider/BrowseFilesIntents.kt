@@ -21,23 +21,13 @@ package org.pacien.tincapp.storageprovider
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.provider.DocumentsContract
 import android.provider.DocumentsContract.Document
-import org.pacien.tincapp.BuildConfig
 
 object BrowseFilesIntents {
-  private const val URI_AUTHORITY = BuildConfig.APPLICATION_ID + ".files"
-
-  fun documentUri(documentId: String) =
-    DocumentsContract.buildDocumentUri(URI_AUTHORITY, documentId)
-
-  fun childDocumentsUri(parentDocumentId: String) =
-    DocumentsContract.buildChildDocumentsUri(URI_AUTHORITY, parentDocumentId)
-
   fun openDocumentTree(context: Context, documentId: String) =
-    openDocumentTree(context, documentUri(documentId))
+    openDocumentTree(context, FilesDocumentsProvider.documentUri(documentId))
 
-  fun openDocumentTree(context: Context, contentUri: Uri) {
+  private fun openDocumentTree(context: Context, contentUri: Uri) {
     val intent = Intent(Intent.ACTION_VIEW).apply {
       setDataAndType(contentUri, Document.MIME_TYPE_DIR)
       addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
