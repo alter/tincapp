@@ -27,15 +27,11 @@ object BrowseFilesIntents {
   fun openDocumentTree(context: Context, documentId: String) =
     openDocumentTree(context, FilesDocumentsProvider.documentUri(documentId))
 
-  private fun openDocumentTree(context: Context, contentUri: Uri) {
-    val intent = Intent(Intent.ACTION_VIEW).apply {
-      setDataAndType(contentUri, Document.MIME_TYPE_DIR)
-      addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
-    }
-
-    if (intent.resolveActivity(context.packageManager) == null)
-      throw RuntimeException("No opener found for " + Document.MIME_TYPE_DIR)
-
-    context.startActivity(intent)
-  }
+  private fun openDocumentTree(context: Context, contentUri: Uri) =
+    context.startActivity(
+      Intent(Intent.ACTION_VIEW).apply {
+        setDataAndType(contentUri, Document.MIME_TYPE_DIR)
+        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+      }
+    )
 }
