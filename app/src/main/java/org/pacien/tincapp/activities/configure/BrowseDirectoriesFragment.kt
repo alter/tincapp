@@ -22,10 +22,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import org.pacien.tincapp.R
 import org.pacien.tincapp.activities.BaseFragment
 import org.pacien.tincapp.databinding.ConfigureBrowseDirectoriesFragmentBinding
-import org.pacien.tincapp.storageprovider.BrowseFilesIntents
 
 /**
  * @author euxane
@@ -35,18 +33,5 @@ class BrowseDirectoriesFragment : BaseFragment() {
     val binding = ConfigureBrowseDirectoriesFragmentBinding.inflate(inflater, container, false)
     binding.openDirectoryTree = { openDocumentTree(it) }
     return binding.root
-  }
-
-  private fun openDocumentTree(documentId: String) {
-    try {
-      BrowseFilesIntents.openDocumentTree(requireContext(), documentId)
-    } catch (e: RuntimeException) {
-      parentActivity.runOnUiThread {
-        parentActivity.showErrorDialog(
-          R.string.configure_browse_directories_error_no_file_browser,
-          docTopic = "browse-files",
-        )
-      }
-    }
   }
 }

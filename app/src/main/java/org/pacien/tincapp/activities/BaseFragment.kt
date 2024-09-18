@@ -18,11 +18,27 @@
 
 package org.pacien.tincapp.activities
 
+import android.content.ActivityNotFoundException
 import androidx.fragment.app.Fragment
+import org.pacien.tincapp.R
+import org.pacien.tincapp.storageprovider.BrowseFilesIntents
 
 /**
  * @author euxane
  */
 abstract class BaseFragment : Fragment() {
   protected val parentActivity by lazy { activity as BaseActivity }
+
+  fun openDocumentTree(documentId: String) {
+    try {
+      BrowseFilesIntents.openDocumentTree(requireContext(), documentId)
+    } catch (e: ActivityNotFoundException) {
+      parentActivity.runOnUiThread {
+        parentActivity.showErrorDialog(
+          R.string.configure_browse_directories_error_no_file_browser,
+          docTopic = "browse-files",
+        )
+      }
+    }
+  }
 }
