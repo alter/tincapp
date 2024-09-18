@@ -18,12 +18,12 @@
 
 package org.pacien.tincapp.activities.status.nodes
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import org.pacien.tincapp.R
 import org.pacien.tincapp.activities.BaseFragment
 import org.pacien.tincapp.commands.Tinc
@@ -42,7 +42,7 @@ class NodeListFragment : BaseFragment() {
   private val vpnService = TincVpnService
   private val tincCtl = Tinc
   private val netName by lazy { vpnService.getCurrentNetName()!! }
-  private val nodeListViewModel by lazy { ViewModelProviders.of(this).get(NodeListViewModel::class.java) }
+  private val nodeListViewModel by lazy { ViewModelProvider(this).get(NodeListViewModel::class.java) }
   private val nodeListAdapter by lazy { NodeInfoArrayAdapter(requireContext(), this::onItemClick) }
   private lateinit var statusNodeListFragmentBinding: StatusNodeListFragmentBinding
 
