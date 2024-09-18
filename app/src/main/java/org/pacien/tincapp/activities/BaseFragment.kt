@@ -36,7 +36,7 @@ abstract class BaseFragment : Fragment() {
       parentActivity.runOnUiThread {
         parentActivity.showErrorDialog(
           R.string.configure_browse_directories_error_no_file_manager,
-          docTopic = "browse-files",
+          docTopic = "troubleshooting.html#no-file-manager-found",
         )
       }
     }

@@ -89,13 +89,13 @@ class TincVpnService : VpnService() {
 
   private fun startVpn(netName: String, passphrase: String? = null): Unit = synchronized(this) {
     if (netName.isBlank())
-      return reportError(resources.getString(R.string.notification_error_message_no_network_name_provided), docTopic = "intent-api")
+      return reportError(resources.getString(R.string.notification_error_message_no_network_name_provided), docTopic = "doc.html#intent-api")
 
     if (TincKeyring.needsPassphrase(netName) && passphrase == null)
       return reportError(resources.getString(R.string.notification_error_message_passphrase_not_provided))
 
     if (!AppPaths.confDir(netName).exists())
-      return reportError(resources.getString(R.string.notification_error_message_no_configuration_for_network_format, netName), docTopic = "configuration-files")
+      return reportError(resources.getString(R.string.notification_error_message_no_configuration_for_network_format, netName), docTopic = "doc.html#configuration-files")
 
     log.info("Starting tinc daemon for network \"$netName\".")
     if (isConnected() || getCurrentNetName() != null) stopVpn().join()
@@ -126,13 +126,13 @@ class TincVpnService : VpnService() {
       return reportError(
         resources.getString(R.string.notification_error_message_network_config_not_found_format, e.defaultMessage()),
         e,
-        docTopic = "configuration-files"
+        docTopic = "doc.html#configuration-files"
       )
     } catch (e: ConversionException) {
       return reportError(
         resources.getString(R.string.notification_error_message_network_config_invalid_format, e.defaultMessage()),
         e,
-        docTopic = "network-interface",
+        docTopic = "doc.html#network-interface",
       )
     } catch (e: Exception) {
       return reportError(
@@ -153,7 +153,7 @@ class TincVpnService : VpnService() {
       return reportError(
         resources.getString(R.string.notification_error_message_network_config_invalid_format, e.defaultMessage()),
         e,
-        docTopic = "network-interface",
+        docTopic = "doc.html#network-interface",
         configDir = netName,
       )
     } catch (e: NullPointerException) {
