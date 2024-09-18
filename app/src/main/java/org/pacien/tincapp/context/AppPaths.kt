@@ -27,7 +27,7 @@ import java.io.FileNotFoundException
  * @implNote Logs and PID files are stored in the cache directory for automatic collection.
  */
 object AppPaths {
-  private const val APP_LOG_DIR = "log"
+  private const val APP_LOGS_DIR = "logs"
   private const val APP_TINC_RUNTIME_DIR = "run"
   private const val APP_TINC_NETWORKS_DIR = "networks"
 
@@ -54,7 +54,7 @@ object AppPaths {
   private fun binDir() = File(context.applicationInfo.nativeLibraryDir)
 
   fun runtimeDir() = withDir(File(privateCacheDir(), APP_TINC_RUNTIME_DIR))
-  fun logDir() = withDir(File(privateCacheDir(), APP_LOG_DIR))
+  fun logsDir() = withDir(File(privateCacheDir(), APP_LOGS_DIR))
   fun confDir() = withDir(File(privateFilesDir(), APP_TINC_NETWORKS_DIR))
 
   fun confDir(netName: String) = File(confDir(), netName)
@@ -62,9 +62,9 @@ object AppPaths {
   fun netConfFile(netName: String) = File(confDir(netName), NET_CONF_FILE)
   fun tincConfFile(netName: String) = File(confDir(netName), NET_TINC_CONF_FILE)
   fun invitationFile(netName: String) = File(confDir(netName), NET_INVITATION_FILE)
-  fun logFile(netName: String) = File(logDir(), String.format(LOGFILE_FORMAT, netName))
+  fun logFile(netName: String) = File(logsDir(), String.format(LOGFILE_FORMAT, netName))
   fun pidFile(netName: String) = File(runtimeDir(), String.format(PIDFILE_FORMAT, netName))
-  fun appLogFile() = File(logDir(), APPLOG_FILE)
+  fun appLogFile() = File(logsDir(), APPLOG_FILE)
   fun crashFlagFile() = File(privateCacheDir(), CRASHFLAG_FILE)
 
   fun existing(f: File) = f.apply { if (!exists()) throw FileNotFoundException(f.absolutePath) }

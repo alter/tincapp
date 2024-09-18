@@ -45,7 +45,7 @@
 
 		<LinearLayout
 			style="@style/AppTheme.ListBlock.Clickable"
-			android:onClick="@{() -> openDirectoryTree.invoke(FilesDocumentsProvider.VIRTUAL_ROOT_LOG)}">
+			android:onClick="@{() -> openDirectoryTree.invoke(FilesDocumentsProvider.VIRTUAL_ROOT_LOGS)}">
 
 			<TextView
 				style="@style/AppTheme.BlockTitle"

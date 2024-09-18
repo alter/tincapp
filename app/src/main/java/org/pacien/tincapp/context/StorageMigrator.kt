@@ -20,6 +20,7 @@ package org.pacien.tincapp.context
 
 import org.pacien.tincapp.extensions.Java.defaultMessage
 import org.slf4j.LoggerFactory
+import java.io.File
 import java.io.IOException
 
 /**
@@ -34,7 +35,8 @@ class StorageMigrator {
 
   fun migrate() {
     migrateConfigurationDirectory()
-    migrateLogDirectory()
+    migrateLogDirectory(context.externalCacheDir)
+    migrateLogDirectory(File(context.cacheDir, "log"))  // migrated to "logs"
   }
 
   private fun migrateConfigurationDirectory() {
@@ -56,8 +58,7 @@ class StorageMigrator {
     }
   }
 
-  private fun migrateLogDirectory() {
-    val oldLogDir = context.externalCacheDir
+  private fun migrateLogDirectory(oldLogDir: File?) {
     if (oldLogDir == null || oldLogDir.listFiles().isNullOrEmpty()) return // nothing to do
 
     try {

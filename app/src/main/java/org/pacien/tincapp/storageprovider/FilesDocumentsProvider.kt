@@ -46,7 +46,7 @@ class FilesDocumentsProvider : DocumentsProvider() {
     private const val ROOT_ID = ""
     private const val ROOT_DOCUMENT_ID = "/"
     const val VIRTUAL_ROOT_NETWORKS = "networks"
-    const val VIRTUAL_ROOT_LOG = "log"
+    const val VIRTUAL_ROOT_LOGS = "logs"
 
     private val DEFAULT_ROOT_PROJECTION = arrayOf(
       Root.COLUMN_ROOT_ID,
@@ -107,7 +107,7 @@ class FilesDocumentsProvider : DocumentsProvider() {
       when (parentDocumentId) {
         ROOT_DOCUMENT_ID -> {
           addVirtualDirRow(VIRTUAL_ROOT_NETWORKS, Document.FLAG_DIR_SUPPORTS_CREATE)
-          addVirtualDirRow(VIRTUAL_ROOT_LOG, Document.FLAG_DIR_SUPPORTS_CREATE)
+          addVirtualDirRow(VIRTUAL_ROOT_LOGS, Document.FLAG_DIR_SUPPORTS_CREATE)
         }
 
         else -> fileForDocumentId(parentDocumentId).listFiles()?.forEach {
@@ -174,7 +174,7 @@ class FilesDocumentsProvider : DocumentsProvider() {
       val under = if (it.size >= 2) it[1] else ""
       when (root) {
         VIRTUAL_ROOT_NETWORKS -> File(AppPaths.confDir(), under)
-        VIRTUAL_ROOT_LOG -> File(AppPaths.logDir(), under)
+        VIRTUAL_ROOT_LOGS -> File(AppPaths.logsDir(), under)
         else -> throw FileNotFoundException()
       }
     }
@@ -182,8 +182,8 @@ class FilesDocumentsProvider : DocumentsProvider() {
   private fun documentIdForFile(file: File): String =
     if (AppPaths.confDir().isParentOf(file, false)) {
       File(VIRTUAL_ROOT_NETWORKS, file.pathUnder(AppPaths.confDir())).path
-    } else if (AppPaths.logDir().isParentOf(file, false)) {
-      File(VIRTUAL_ROOT_LOG, file.pathUnder(AppPaths.logDir())).path
+    } else if (AppPaths.logsDir().isParentOf(file, false)) {
+      File(VIRTUAL_ROOT_LOGS, file.pathUnder(AppPaths.logsDir())).path
     } else {
       throw IllegalArgumentException()
     }
