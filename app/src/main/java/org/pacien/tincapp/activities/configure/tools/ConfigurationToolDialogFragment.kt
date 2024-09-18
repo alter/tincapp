@@ -18,10 +18,9 @@
 
 package org.pacien.tincapp.activities.configure.tools
 
-import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
-import android.view.View
+import androidx.viewbinding.ViewBinding
 import java8.util.concurrent.CompletableFuture
 import org.pacien.tincapp.R
 import org.pacien.tincapp.activities.BaseDialogFragment
@@ -35,14 +34,11 @@ import java.util.regex.Pattern
 abstract class ConfigurationToolDialogFragment : BaseDialogFragment() {
   private val networkNamePattern by lazy { Pattern.compile("^[^\\x00/]*$") }
 
-  protected fun makeDialog(@LayoutRes layout: Int, @StringRes title: Int, @StringRes applyButton: Int, applyAction: (View) -> Unit) =
-    makeDialog(inflate(layout), title, applyButton, applyAction)
-
-  protected fun makeDialog(view: View, @StringRes title: Int, @StringRes applyButton: Int, applyAction: (View) -> Unit) =
+  protected fun <ViewBindingT: ViewBinding> makeDialog(viewBinding: ViewBindingT, @StringRes title: Int, @StringRes applyButton: Int, applyAction: (ViewBindingT) -> Unit) =
     AlertDialog.Builder(parentActivity)
       .setTitle(title)
-      .setView(view)
-      .setPositiveButton(applyButton) { _, _ -> applyAction(view) }
+      .setView(viewBinding.root)
+      .setPositiveButton(applyButton) { _, _ -> applyAction(viewBinding) }
       .setNegativeButton(R.string.generic_action_cancel) { _, _ -> Unit }
       .create()!!
 

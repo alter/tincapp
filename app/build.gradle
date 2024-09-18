@@ -69,6 +69,7 @@ android {
 
   buildFeatures {
     dataBinding = true
+    viewBinding = true
   }
 
   namespace 'org.pacien.tincapp'

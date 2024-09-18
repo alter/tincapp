@@ -20,10 +20,8 @@ package org.pacien.tincapp.activities.configure.tools
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import com.google.zxing.integration.android.IntentIntegrator
 import com.google.zxing.integration.android.IntentResult
-import kotlinx.android.synthetic.main.configure_tools_dialog_network_join.view.*
 import org.pacien.tincapp.R
 import org.pacien.tincapp.commands.Tinc
 import org.pacien.tincapp.commands.TincApp
@@ -36,13 +34,13 @@ import org.pacien.tincapp.utils.makePublic
  */
 class JoinNetworkToolDialogFragment : ConfigurationToolDialogFragment() {
   private val scanner by lazy { IntentIntegrator.forSupportFragment(this) }
-  private var joinDialog: View? = null
+  private var joinDialog: ConfigureToolsDialogNetworkJoinBinding? = null
 
   override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
     IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
       ?.let(IntentResult::getContents)
       ?.let(String::trim)
-      ?.let { joinDialog?.invitation_url?.setText(it) }
+      ?.let { joinDialog?.invitationUrl?.setText(it) }
   }
 
   override fun onCreateDialog(savedInstanceState: Bundle?) =
@@ -54,19 +52,16 @@ class JoinNetworkToolDialogFragment : ConfigurationToolDialogFragment() {
         R.string.configure_tools_join_network_action
       ) { dialog ->
         joinNetwork(
-          dialog.net_name.text.toString(),
-          dialog.invitation_url.text.toString(),
-          dialog.join_passphrase.text.toString()
+          dialog.netName.text.toString(),
+          dialog.invitationUrl.text.toString(),
+          dialog.joinPassphrase.text.toString()
         )
       }
     }
 
   private fun makeJoinDialog() =
-    parentActivity.inflate { inflater, parent, attachToRoot ->
-      ConfigureToolsDialogNetworkJoinBinding.inflate(inflater, parent, attachToRoot)
-        .apply { scanAction = this@JoinNetworkToolDialogFragment::scanCode }
-        .root
-    }
+    ConfigureToolsDialogNetworkJoinBinding.inflate(dialogLayoutInflater)
+      .apply { scanAction = this@JoinNetworkToolDialogFragment::scanCode }
 
   private fun scanCode() {
     scanner.initiateScan()

@@ -19,11 +19,8 @@
 package org.pacien.tincapp.activities
 
 import android.content.Context
-import androidx.annotation.LayoutRes
 import androidx.fragment.app.DialogFragment
 import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 
 /**
  * @author euxane
@@ -31,8 +28,5 @@ import android.view.ViewGroup
 abstract class BaseDialogFragment : DialogFragment() {
   protected val parentActivity by lazy { activity as BaseActivity }
   // getLayoutInflater() calls onCreateDialog. See https://stackoverflow.com/a/15152788
-  private val inflater by lazy { activity!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater }
-
-  fun inflate(@LayoutRes layout: Int) = inflater.inflate(layout, null)!!
-  fun inflate(inflateFunc: (LayoutInflater, ViewGroup?, Boolean) -> View) = inflateFunc(inflater, null, false)
+  protected val dialogLayoutInflater by lazy { activity!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater }
 }

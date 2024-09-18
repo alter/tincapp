@@ -19,7 +19,7 @@
 package org.pacien.tincapp.activities.configure.tools
 
 import android.os.Bundle
-import kotlinx.android.synthetic.main.configure_tools_dialog_encrypt_decrypt_keys.view.*
+import org.pacien.tincapp.databinding.ConfigureToolsDialogEncryptDecryptKeysBinding
 import org.pacien.tincapp.R
 import org.pacien.tincapp.commands.TincApp
 
@@ -29,14 +29,14 @@ import org.pacien.tincapp.commands.TincApp
 class EncryptDecryptPrivateKeysToolDialogFragment : ConfigurationToolDialogFragment() {
   override fun onCreateDialog(savedInstanceState: Bundle?) =
     makeDialog(
-      R.layout.configure_tools_dialog_encrypt_decrypt_keys,
+      ConfigureToolsDialogEncryptDecryptKeysBinding.inflate(dialogLayoutInflater),
       R.string.configure_tools_private_keys_encryption_title,
       R.string.configure_tools_private_keys_encryption_action
     ) { dialog ->
       encryptDecryptPrivateKeys(
-        dialog.enc_dec_net_name.text.toString(),
-        dialog.enc_dec_current_passphrase.text.toString(),
-        dialog.enc_dec_new_passphrase.text.toString()
+        dialog.encDecNetName.text.toString(),
+        dialog.encDecCurrentPassphrase.text.toString(),
+        dialog.encDecNewPassphrase.text.toString()
       )
     }
 
