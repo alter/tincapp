@@ -31,6 +31,8 @@ import android.provider.DocumentsProvider
 import androidx.annotation.RequiresApi
 import org.pacien.tincapp.R
 import org.pacien.tincapp.context.AppPaths
+import org.pacien.tincapp.utils.isParentOf
+import org.pacien.tincapp.utils.pathUnder
 import java.io.File
 import java.io.FileNotFoundException
 import kotlin.io.path.Path
@@ -177,22 +179,6 @@ class FilesDocumentsProvider : DocumentsProvider() {
     } else {
       throw IllegalArgumentException()
     }
-
-  private fun File.pathUnder(parent: File): String =
-    canonicalPath.removePrefix(parent.canonicalPath)
-
-  private fun File.isParentOf(childCandidate: File, strict: Boolean = true): Boolean {
-    var parentOfChild = childCandidate.canonicalFile
-
-    if (strict)
-      parentOfChild = parentOfChild.parentFile
-
-    while (parentOfChild != null) {
-      if (parentOfChild.equals(canonicalFile)) return true
-      parentOfChild = parentOfChild.parentFile
-    }
-    return false
-  }
 
   private fun File.documentMimeType() =
     if (isDirectory) Document.MIME_TYPE_DIR
