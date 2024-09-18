@@ -68,7 +68,7 @@ object AppPaths {
   fun crashFlagFile() = File(privateCacheDir(), CRASHFLAG_FILE)
 
   fun existing(f: File) = f.apply { if (!exists()) throw FileNotFoundException(f.absolutePath) }
-  fun withDir(f: File) = f.apply { if (!exists()) mkdirs() }
+  private fun withDir(f: File) = f.apply { if (!exists()) mkdirs() }
 
   fun defaultEd25519PrivateKeyFile(netName: String) = File(confDir(netName), NET_DEFAULT_ED25519_PRIVATE_KEY_FILE)
   fun defaultRsaPrivateKeyFile(netName: String) = File(confDir(netName), NET_DEFAULT_RSA_PRIVATE_KEY_FILE)
