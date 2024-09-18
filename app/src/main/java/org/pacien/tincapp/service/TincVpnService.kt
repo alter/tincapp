@@ -95,7 +95,7 @@ class TincVpnService : VpnService() {
       return reportError(resources.getString(R.string.notification_error_message_passphrase_not_provided))
 
     if (!AppPaths.confDir(netName).exists())
-      return reportError(resources.getString(R.string.notification_error_message_no_configuration_for_network_format, netName), docTopic = "configuration")
+      return reportError(resources.getString(R.string.notification_error_message_no_configuration_for_network_format, netName), docTopic = "configuration-files")
 
     log.info("Starting tinc daemon for network \"$netName\".")
     if (isConnected() || getCurrentNetName() != null) stopVpn().join()
@@ -126,7 +126,7 @@ class TincVpnService : VpnService() {
       return reportError(
         resources.getString(R.string.notification_error_message_network_config_not_found_format, e.defaultMessage()),
         e,
-        docTopic = "configuration"
+        docTopic = "configuration-files"
       )
     } catch (e: ConversionException) {
       return reportError(
