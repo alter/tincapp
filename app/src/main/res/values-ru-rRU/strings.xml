@@ -82,7 +82,6 @@
 
 	<string name="configure_activity_title_tools">Инструменты</string>
 	<string name="configure_tools_action_generate_node_configuration_and_keys">Генерировать конфигурацию узла и ключи</string>
-	<string name="configure_tools_action_join_network_via_invitation_url">Присоединиться к сети через URL-адрес приглашения</string>
 	<string name="configure_tools_action_encrypt_decrypt_private_keys">Шифровать или дешифровать закрытые ключи</string>
 
 	<string name="configure_tools_generate_config_title">Новая сеть</string>

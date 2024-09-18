@@ -54,7 +54,7 @@
 
 			<TextView
 				style="@style/AppTheme.BlockTitle"
-				android:text="@string/configure_tools_action_join_network_via_invitation_url"/>
+				android:text="@string/configure_tools_action_join_network_via_invitation_url_qr_code"/>
 
 		</LinearLayout>
 

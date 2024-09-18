@@ -82,7 +82,6 @@
 
 	<string name="configure_activity_title_tools">工具</string>
 	<string name="configure_tools_action_generate_node_configuration_and_keys">生成節點配置和密鑰</string>
-	<string name="configure_tools_action_join_network_via_invitation_url">通過邀請 URL 加入網絡</string>
 	<string name="configure_tools_action_encrypt_decrypt_private_keys">加密或解密私鑰</string>
 
 	<string name="configure_tools_generate_config_title">新建網絡</string>
