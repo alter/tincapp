@@ -26,10 +26,9 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.TextView
-import kotlinx.android.synthetic.main.start_network_list.*
 import org.pacien.tincapp.R
 import org.pacien.tincapp.activities.BaseFragment
-import org.pacien.tincapp.context.AppPaths
+import org.pacien.tincapp.databinding.StartNetworkListBinding
 import org.pacien.tincapp.extensions.hideBottomSeparator
 import org.pacien.tincapp.extensions.setElements
 
@@ -39,6 +38,7 @@ import org.pacien.tincapp.extensions.setElements
 class NetworkListFragment : BaseFragment() {
   private val networkListViewModel by lazy { NetworkListViewModel() }
   private val networkListAdapter by lazy { ArrayAdapter<String>(requireContext(), R.layout.start_network_list_item) }
+  private lateinit var startNetworkListBinding: StartNetworkListBinding
   var connectToNetworkAction = { _: String -> Unit }
 
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,16 +47,17 @@ class NetworkListFragment : BaseFragment() {
   }
 
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-    return inflater.inflate(R.layout.start_network_list, container, false)
+    startNetworkListBinding = StartNetworkListBinding.inflate(inflater, container, false)
+    return startNetworkListBinding.root
   }
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-    val listHeaderView = layoutInflater.inflate(R.layout.start_network_list_header, start_network_list, false)
-    start_network_list.addHeaderView(listHeaderView, null, false)
-    start_network_list.hideBottomSeparator()
-    start_network_list.emptyView = start_network_list_placeholder
-    start_network_list.onItemClickListener = AdapterView.OnItemClickListener(this::onItemClick)
-    start_network_list.adapter = networkListAdapter
+    val listHeaderView = layoutInflater.inflate(R.layout.start_network_list_header, startNetworkListBinding.root, false)
+    startNetworkListBinding.startNetworkList.addHeaderView(listHeaderView, null, false)
+    startNetworkListBinding.startNetworkList.hideBottomSeparator()
+    startNetworkListBinding.startNetworkList.emptyView = startNetworkListBinding.startNetworkListPlaceholder
+    startNetworkListBinding.startNetworkList.onItemClickListener = AdapterView.OnItemClickListener(this::onItemClick)
+    startNetworkListBinding.startNetworkList.adapter = networkListAdapter
   }
 
   @Suppress("UNUSED_PARAMETER")
@@ -71,8 +72,8 @@ class NetworkListFragment : BaseFragment() {
   }
 
   private fun updatePlaceholder() {
-    start_network_list_placeholder.post {
-      start_network_list_placeholder_text?.text = getString(R.string.start_network_list_empty_none_found)
+    startNetworkListBinding.startNetworkListPlaceholder.post {
+      startNetworkListBinding.startNetworkListPlaceholderText?.text = getString(R.string.start_network_list_empty_none_found)
     }
   }
 }

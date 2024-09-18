@@ -24,9 +24,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import kotlinx.android.synthetic.main.status_subnet_list_fragment.*
-import org.pacien.tincapp.R
 import org.pacien.tincapp.activities.BaseFragment
+import org.pacien.tincapp.databinding.StatusSubnetListFragmentBinding
 import org.pacien.tincapp.extensions.hideBottomSeparator
 import org.pacien.tincapp.extensions.hideTopSeparator
 import org.pacien.tincapp.extensions.setElements
@@ -38,6 +37,7 @@ class SubnetListFragment : BaseFragment() {
   private val subnetListViewModel by lazy { ViewModelProviders.of(this).get(SubnetListViewModel::class.java) }
   private val subnetListAdapter by lazy { SubnetInfoArrayAdapter(requireContext()) }
   private val subnetListObserver by lazy { Observer<List<SubnetInfo>> { subnetListAdapter.setElements(it) } }
+  private lateinit var statusSubnetListFragmentBinding: StatusSubnetListFragmentBinding
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -45,13 +45,14 @@ class SubnetListFragment : BaseFragment() {
   }
 
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-    return inflater.inflate(R.layout.status_subnet_list_fragment, container, false)
+    statusSubnetListFragmentBinding = StatusSubnetListFragmentBinding.inflate(inflater, container, false)
+    return statusSubnetListFragmentBinding.root
   }
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-    status_subnet_list.hideTopSeparator()
-    status_subnet_list.hideBottomSeparator()
-    status_subnet_list.onItemClickListener = null
-    status_subnet_list.adapter = subnetListAdapter
+    statusSubnetListFragmentBinding.statusSubnetList.hideTopSeparator()
+    statusSubnetListFragmentBinding.statusSubnetList.hideBottomSeparator()
+    statusSubnetListFragmentBinding.statusSubnetList.onItemClickListener = null
+    statusSubnetListFragmentBinding.statusSubnetList.adapter = subnetListAdapter
   }
 }

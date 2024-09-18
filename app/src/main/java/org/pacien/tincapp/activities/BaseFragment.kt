@@ -18,19 +18,9 @@
 
 package org.pacien.tincapp.activities
 
-import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import kotlinx.android.synthetic.main.base_activity.*
 
 /**
  * @author euxane
  */
-abstract class BaseFragment : Fragment() {
-  private val rootView by lazy { base_activity_frame }
-
-  fun inflate(@LayoutRes layout: Int) = layoutInflater.inflate(layout, rootView, false)!!
-  fun inflate(inflateFunc: (LayoutInflater, ViewGroup?, Boolean) -> View) = inflateFunc(layoutInflater, rootView, false)
-}
+abstract class BaseFragment : Fragment()

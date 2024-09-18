@@ -25,11 +25,11 @@ import androidx.appcompat.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import kotlinx.android.synthetic.main.status_node_info_dialog.view.*
-import kotlinx.android.synthetic.main.status_node_list_fragment.*
 import org.pacien.tincapp.R
 import org.pacien.tincapp.activities.BaseFragment
 import org.pacien.tincapp.commands.Tinc
+import org.pacien.tincapp.databinding.StatusNodeInfoDialogBinding
+import org.pacien.tincapp.databinding.StatusNodeListFragmentBinding
 import org.pacien.tincapp.extensions.hideBottomSeparator
 import org.pacien.tincapp.extensions.hideTopSeparator
 import org.pacien.tincapp.extensions.setElements
@@ -45,6 +45,7 @@ class NodeListFragment : BaseFragment() {
   private val nodeListViewModel by lazy { ViewModelProviders.of(this).get(NodeListViewModel::class.java) }
   private val nodeListAdapter by lazy { NodeInfoArrayAdapter(requireContext(), this::onItemClick) }
   private val nodeListObserver by lazy { Observer<List<NodeInfo>> { nodeListAdapter.setElements(it) } }
+  private lateinit var statusNodeListFragmentBinding: StatusNodeListFragmentBinding
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -52,30 +53,31 @@ class NodeListFragment : BaseFragment() {
   }
 
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-    return inflater.inflate(R.layout.status_node_list_fragment, container, false)
+    statusNodeListFragmentBinding = StatusNodeListFragmentBinding.inflate(inflater, container, false)
+    return statusNodeListFragmentBinding.root
   }
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-    status_node_list.hideTopSeparator()
-    status_node_list.hideBottomSeparator()
-    status_node_list.emptyView = status_node_list_placeholder
-    status_node_list.adapter = nodeListAdapter
+    statusNodeListFragmentBinding.statusNodeList.hideTopSeparator()
+    statusNodeListFragmentBinding.statusNodeList.hideBottomSeparator()
+    statusNodeListFragmentBinding.statusNodeList.emptyView = statusNodeListFragmentBinding.statusNodeListPlaceholder
+    statusNodeListFragmentBinding.statusNodeList.adapter = nodeListAdapter
   }
 
   private fun onItemClick(nodeInfo: NodeInfo) =
     showNodeInfo(nodeInfo.name)
 
   private fun showNodeInfo(nodeName: String) {
-    val dialogTextView = inflate(R.layout.status_node_info_dialog)
+    val dialogTextViewBinding = StatusNodeInfoDialogBinding.inflate(layoutInflater)
 
     AlertDialog.Builder(context!!)
       .setTitle(R.string.status_node_info_dialog_title)
-      .setView(dialogTextView)
+      .setView(dialogTextViewBinding.root)
       .setPositiveButton(R.string.status_node_info_dialog_close_action) { _, _ -> Unit }
       .show()
 
     tincCtl.info(netName, nodeName).thenAccept { nodeInfo ->
-      view?.post { dialogTextView.dialog_node_details.text = nodeInfo }
+      view?.post { dialogTextViewBinding.dialogNodeDetails.text = nodeInfo }
     }
   }
 }
