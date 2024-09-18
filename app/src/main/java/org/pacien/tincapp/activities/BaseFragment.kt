@@ -35,7 +35,7 @@ abstract class BaseFragment : Fragment() {
     } catch (e: ActivityNotFoundException) {
       parentActivity.runOnUiThread {
         parentActivity.showErrorDialog(
-          R.string.configure_browse_directories_error_no_file_browser,
+          R.string.configure_browse_directories_error_no_file_manager,
           docTopic = "browse-files",
         )
       }

@@ -90,7 +90,7 @@
 	<string name="configure_activity_title_directories">Directories</string>
 	<string name="configure_browse_directories_action_open_networks_config">Open networks configuration directory</string>
 	<string name="configure_browse_directories_action_open_logs">Open logs directory</string>
-	<string name="configure_browse_directories_error_no_file_browser">No file browser found to open target.</string>
+	<string name="configure_browse_directories_error_no_file_manager">No file manager found to open target.</string>
 
 	<string name="configure_activity_title_tools">Tools</string>
 	<string name="configure_tools_action_generate_node_configuration_and_keys">Generate node configuration and keys</string>
