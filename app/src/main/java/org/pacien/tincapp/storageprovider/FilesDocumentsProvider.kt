@@ -37,7 +37,7 @@ import org.pacien.tincapp.utils.pathUnder
 import java.io.File
 import java.io.FileNotFoundException
 import kotlin.io.path.Path
-import kotlin.io.path.name
+import kotlin.io.path.pathString
 import kotlin.io.path.relativeTo
 
 class FilesDocumentsProvider : DocumentsProvider() {
@@ -125,8 +125,11 @@ class FilesDocumentsProvider : DocumentsProvider() {
     if (parentDocumentId != null)
       childPath = childPath.relativeTo(Path(parentDocumentId))
 
-    val components = childPath.asSequence().map { it.name }.toList()
-    return DocumentsContract.Path(ROOT_ID, listOf(ROOT_DOCUMENT_ID) + components)
+    val subPaths = (1 .. childPath.nameCount).map {
+      childPath.subpath(0, it).pathString
+    }.toList()
+
+    return DocumentsContract.Path(ROOT_ID, listOf(ROOT_DOCUMENT_ID) + subPaths)
   }
 
   override fun isChildDocument(parentDocumentId: String?, documentId: String?): Boolean =
