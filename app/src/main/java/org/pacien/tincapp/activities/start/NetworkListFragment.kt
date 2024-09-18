@@ -31,6 +31,7 @@ import org.pacien.tincapp.activities.BaseFragment
 import org.pacien.tincapp.databinding.StartNetworkListBinding
 import org.pacien.tincapp.extensions.hideBottomSeparator
 import org.pacien.tincapp.extensions.setElements
+import org.pacien.tincapp.extensions.updatePlaceholderVisibility
 
 /**
  * @author euxane
@@ -55,7 +56,6 @@ class NetworkListFragment : BaseFragment() {
     val listHeaderView = layoutInflater.inflate(R.layout.start_network_list_header, startNetworkListBinding.root, false)
     startNetworkListBinding.startNetworkList.addHeaderView(listHeaderView, null, false)
     startNetworkListBinding.startNetworkList.hideBottomSeparator()
-    startNetworkListBinding.startNetworkList.emptyView = startNetworkListBinding.startNetworkListPlaceholder
     startNetworkListBinding.startNetworkList.onItemClickListener = AdapterView.OnItemClickListener(this::onItemClick)
     startNetworkListBinding.startNetworkList.adapter = networkListAdapter
   }
@@ -67,13 +67,10 @@ class NetworkListFragment : BaseFragment() {
   }
 
   private fun updateNetworkList(networks: List<String>) {
+    startNetworkListBinding.startNetworkList.updatePlaceholderVisibility(
+      startNetworkListBinding.startNetworkListPlaceholder,
+      networks.isEmpty()
+    )
     networkListAdapter.setElements(networks)
-    if (networks.isEmpty()) updatePlaceholder()
-  }
-
-  private fun updatePlaceholder() {
-    startNetworkListBinding.startNetworkListPlaceholder.post {
-      startNetworkListBinding.startNetworkListPlaceholderText?.text = getString(R.string.start_network_list_empty_none_found)
-    }
   }
 }

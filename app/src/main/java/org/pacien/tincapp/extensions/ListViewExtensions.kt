@@ -45,3 +45,26 @@ fun ListView.hideTopSeparator() {
 fun ListView.hideBottomSeparator() {
   addFooterView(View(context), null, false)
 }
+
+/**
+ * Workaround for mishandled list emptyView since Android SDK 34:
+
+java.lang.ClassCastException: android.widget.LinearLayout$LayoutParams cannot be cast to android.widget.AbsListView$LayoutParams
+	at android.widget.ListView.removeUnusedFixedViews(ListView.java:2001)
+	at android.widget.ListView.layoutChildren(ListView.java:1860)
+	at android.widget.AbsListView.onLayout(AbsListView.java:2271)
+	at android.widget.AdapterView.updateEmptyStatus(AdapterView.java:794)
+	at android.widget.AdapterView.checkFocus(AdapterView.java:767)
+	at android.widget.AdapterView$AdapterDataSetObserver.onChanged(AdapterView.java:859)
+	at android.widget.AbsListView$AdapterDataSetObserver.onChanged(AbsListView.java:6949)
+	at android.database.DataSetObservable.notifyChanged(DataSetObservable.java:38)
+	at android.widget.BaseAdapter.notifyDataSetChanged(BaseAdapter.java:54)
+	at android.widget.ArrayAdapter.notifyDataSetChanged(ArrayAdapter.java:355)
+	at org.pacien.tincapp.extensions.ListViewExtensionsKt.setElements(ListViewExtensions.kt:36)
+ */
+fun ListView.updatePlaceholderVisibility(placeholderView: View, usePlaceholder: Boolean) {
+  post {
+    placeholderView.visibility = if (usePlaceholder) View.VISIBLE else View.GONE
+    visibility = if (usePlaceholder) View.GONE else View.VISIBLE
+  }
+}

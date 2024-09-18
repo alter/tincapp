@@ -18,7 +18,6 @@
 
 package org.pacien.tincapp.activities.status.nodes
 
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
@@ -33,6 +32,7 @@ import org.pacien.tincapp.databinding.StatusNodeListFragmentBinding
 import org.pacien.tincapp.extensions.hideBottomSeparator
 import org.pacien.tincapp.extensions.hideTopSeparator
 import org.pacien.tincapp.extensions.setElements
+import org.pacien.tincapp.extensions.updatePlaceholderVisibility
 import org.pacien.tincapp.service.TincVpnService
 
 /**
@@ -44,12 +44,11 @@ class NodeListFragment : BaseFragment() {
   private val netName by lazy { vpnService.getCurrentNetName()!! }
   private val nodeListViewModel by lazy { ViewModelProviders.of(this).get(NodeListViewModel::class.java) }
   private val nodeListAdapter by lazy { NodeInfoArrayAdapter(requireContext(), this::onItemClick) }
-  private val nodeListObserver by lazy { Observer<List<NodeInfo>> { nodeListAdapter.setElements(it) } }
   private lateinit var statusNodeListFragmentBinding: StatusNodeListFragmentBinding
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    nodeListViewModel.nodeList.observe(this, nodeListObserver)
+    nodeListViewModel.nodeList.observe(this) { updateNodeList(it) }
   }
 
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -60,8 +59,15 @@ class NodeListFragment : BaseFragment() {
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     statusNodeListFragmentBinding.statusNodeList.hideTopSeparator()
     statusNodeListFragmentBinding.statusNodeList.hideBottomSeparator()
-    statusNodeListFragmentBinding.statusNodeList.emptyView = statusNodeListFragmentBinding.statusNodeListPlaceholder
     statusNodeListFragmentBinding.statusNodeList.adapter = nodeListAdapter
+  }
+
+  private fun updateNodeList(nodes: List<NodeInfo>) {
+    statusNodeListFragmentBinding.statusNodeList.updatePlaceholderVisibility(
+      statusNodeListFragmentBinding.statusNodeListPlaceholder,
+      nodes.isEmpty()
+    )
+    nodeListAdapter.setElements(nodes)
   }
 
   private fun onItemClick(nodeInfo: NodeInfo) =
