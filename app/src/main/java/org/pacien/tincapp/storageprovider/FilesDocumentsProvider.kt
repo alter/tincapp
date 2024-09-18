@@ -166,9 +166,9 @@ class FilesDocumentsProvider : DocumentsProvider() {
     }
 
   private fun documentIdForFile(file: File): String =
-    if (AppPaths.confDir().isParentOf(file)) {
+    if (AppPaths.confDir().isParentOf(file, false)) {
       File(VIRTUAL_ROOT_NETWORKS, file.pathUnder(AppPaths.confDir())).path
-    } else if (AppPaths.logDir().isParentOf(file)) {
+    } else if (AppPaths.logDir().isParentOf(file, false)) {
       File(VIRTUAL_ROOT_LOG, file.pathUnder(AppPaths.logDir())).path
     } else {
       throw IllegalArgumentException()
@@ -177,8 +177,12 @@ class FilesDocumentsProvider : DocumentsProvider() {
   private fun File.pathUnder(parent: File): String =
     canonicalPath.removePrefix(parent.canonicalPath)
 
-  private fun File.isParentOf(childCandidate: File): Boolean {
-    var parentOfChild = childCandidate.canonicalFile.parentFile
+  private fun File.isParentOf(childCandidate: File, strict: Boolean = true): Boolean {
+    var parentOfChild = childCandidate.canonicalFile
+
+    if (strict)
+      parentOfChild = parentOfChild.parentFile
+
     while (parentOfChild != null) {
       if (parentOfChild.equals(canonicalFile)) return true
       parentOfChild = parentOfChild.parentFile
