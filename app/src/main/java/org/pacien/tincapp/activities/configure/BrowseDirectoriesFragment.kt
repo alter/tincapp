@@ -1,6 +1,6 @@
 /*
  * Tinc Mesh VPN: Android client and user interface
- * Copyright (C) 2017-2018 Euxane P. TRAN-GIRARD
+ * Copyright (C) 2017-2024 Euxane P. TRAN-GIRARD
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,19 +22,31 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import org.pacien.tincapp.R
 import org.pacien.tincapp.activities.BaseFragment
-import org.pacien.tincapp.context.AppPaths
-import org.pacien.tincapp.databinding.ConfigureToolsPathInfoFragmentBinding
+import org.pacien.tincapp.databinding.ConfigureBrowseDirectoriesFragmentBinding
+import org.pacien.tincapp.storageprovider.BrowseFilesIntents
 
 /**
  * @author euxane
  */
-class PathInfoFragment : BaseFragment() {
-  private val appPaths = AppPaths
-
+class BrowseDirectoriesFragment : BaseFragment() {
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-    val binding = ConfigureToolsPathInfoFragmentBinding.inflate(inflater, container, false)
-    binding.appPaths = appPaths
+    val binding = ConfigureBrowseDirectoriesFragmentBinding.inflate(inflater, container, false)
+    binding.openDirectoryTree = { openDocumentTree(it) }
     return binding.root
+  }
+
+  private fun openDocumentTree(documentId: String) {
+    try {
+      BrowseFilesIntents.openDocumentTree(requireContext(), documentId)
+    } catch (e: RuntimeException) {
+      parentActivity.runOnUiThread {
+        parentActivity.showErrorDialog(
+          R.string.configure_browse_directories_error_no_file_browser,
+          docTopic = "browse-files",
+        )
+      }
+    }
   }
 }

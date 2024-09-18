@@ -28,23 +28,23 @@
 		android:layout_height="wrap_content"
 		android:orientation="vertical">
 
- 		<TextView
+		<TextView
+			style="@style/AppTheme.SectionTitle"
+			android:text="@string/configure_activity_title_directories"/>
+
+		<fragment
+			android:id="@+id/configure_activity_path_info_fragment"
+			android:name="org.pacien.tincapp.activities.configure.BrowseDirectoriesFragment"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"/>
+
+		<TextView
 			style="@style/AppTheme.SectionTitle"
 			android:text="@string/configure_activity_title_tools"/>
 
 		<fragment
 			android:id="@+id/configure_activity_tools_fragment"
 			android:name="org.pacien.tincapp.activities.configure.ToolsFragment"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"/>
-
-		<TextView
-			style="@style/AppTheme.SectionTitle"
-			android:text="@string/configure_activity_title_internal_paths_info"/>
-
-		<fragment
-			android:id="@+id/configure_activity_path_info_fragment"
-			android:name="org.pacien.tincapp.activities.configure.PathInfoFragment"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"/>
 

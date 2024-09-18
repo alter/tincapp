@@ -85,10 +85,10 @@
 	<string name="configure_tools_message_invalid_network_name">Invalid network name.</string>
 	<string name="configure_tools_message_network_configuration_written">Network configuration written.</string>
 
-	<string name="configure_activity_title_internal_paths_info">Internal paths info</string>
-	<string name="configure_path_info_title_configuration_directory">Configuration directory</string>
-	<string name="configure_path_info_title_log_directory">Log directory</string>
-	<string name="configure_path_info_title_tinc_binary">tinc binary</string>
+	<string name="configure_activity_title_directories">Directories</string>
+	<string name="configure_browse_directories_action_open_networks_config">Open networks configuration directory</string>
+	<string name="configure_browse_directories_action_open_logs">Open logs directory</string>
+	<string name="configure_browse_directories_error_no_file_browser">No file browser found to open target.</string>
 
 	<string name="configure_activity_title_tools">Tools</string>
 	<string name="configure_tools_action_generate_node_configuration_and_keys">Generate node configuration and keys</string>

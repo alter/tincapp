@@ -2,7 +2,7 @@
 
 <!--
  * Tinc Mesh VPN: Android client and user interface
- * Copyright (C) 2017-2018 Euxane P. TRAN-GIRARD
+ * Copyright (C) 2017-2024 Euxane P. TRAN-GIRARD
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,50 +22,34 @@
 
 	<data>
 
+		<import
+			type="org.pacien.tincapp.storageprovider.FilesDocumentsProvider"/>
+
 		<variable
-			name="appPaths"
-			type="org.pacien.tincapp.context.AppPaths"/>
+			name="openDirectoryTree"
+			type="kotlin.jvm.functions.Function1&lt;String, kotlin.Unit>"/>
 
 	</data>
 
 	<LinearLayout style="@style/AppTheme.List">
 
-		<LinearLayout style="@style/AppTheme.ListBlock">
+		<LinearLayout
+			style="@style/AppTheme.ListBlock.Clickable"
+			android:onClick="@{() -> openDirectoryTree.invoke(FilesDocumentsProvider.VIRTUAL_ROOT_NETWORKS)}">
 
 			<TextView
 				style="@style/AppTheme.BlockTitle"
-				android:text="@string/configure_path_info_title_configuration_directory"/>
-
-			<TextView
-				style="@style/AppTheme.BlockContent"
-				android:text="@{appPaths.confDir().absolutePath}"
-				android:textIsSelectable="true"/>
+				android:text="@string/configure_browse_directories_action_open_networks_config" />
 
 		</LinearLayout>
 
-		<LinearLayout style="@style/AppTheme.ListBlock">
+		<LinearLayout
+			style="@style/AppTheme.ListBlock.Clickable"
+			android:onClick="@{() -> openDirectoryTree.invoke(FilesDocumentsProvider.VIRTUAL_ROOT_LOG)}">
 
 			<TextView
 				style="@style/AppTheme.BlockTitle"
-				android:text="@string/configure_path_info_title_log_directory"/>
-
-			<TextView
-				style="@style/AppTheme.BlockContent"
-				android:text="@{appPaths.logDir().absolutePath}"
-				android:textIsSelectable="true"/>
-
-		</LinearLayout>
-
-		<LinearLayout style="@style/AppTheme.ListBlock">
-
-			<TextView
-				style="@style/AppTheme.BlockTitle"
-				android:text="@string/configure_path_info_title_tinc_binary"/>
-
-			<TextView
-				style="@style/AppTheme.BlockContent"
-				android:text="@{appPaths.tinc().absolutePath}"
-				android:textIsSelectable="true"/>
+				android:text="@string/configure_browse_directories_action_open_logs" />
 
 		</LinearLayout>
 
