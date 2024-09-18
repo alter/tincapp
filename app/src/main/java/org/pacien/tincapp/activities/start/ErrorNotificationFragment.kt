@@ -32,11 +32,11 @@ import org.pacien.tincapp.databinding.StartErrorNotificationBinding
  * @author euxane
  */
 class ErrorNotificationFragment : BaseFragment() {
-  private val notificationManager by lazy { AppNotificationManager(context!!) }
+  private val notificationManager by lazy { AppNotificationManager(requireContext()) }
   private val notificationListener = OnSharedPreferenceChangeListener { _, _ -> updateView() }
   private lateinit var viewBinding: StartErrorNotificationBinding
 
-  override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+  override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
     viewBinding = StartErrorNotificationBinding.inflate(inflater, container, false)
     updateView()
     return viewBinding.root

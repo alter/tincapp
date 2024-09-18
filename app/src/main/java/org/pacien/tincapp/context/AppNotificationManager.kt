@@ -41,7 +41,7 @@ class AppNotificationManager(private val context: Context) {
   private val store by lazy { context.getSharedPreferences(STORE_NAME, Context.MODE_PRIVATE)!! }
 
   fun getError(): ErrorNotification? {
-    if (!store.contains(STORE_KEY_TITLE)) return null;
+    if (!store.contains(STORE_KEY_TITLE)) return null
 
     return ErrorNotification(
       store.getString(STORE_KEY_TITLE, null)!!,

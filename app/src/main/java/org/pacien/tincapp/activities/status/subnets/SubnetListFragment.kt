@@ -34,7 +34,7 @@ import org.pacien.tincapp.extensions.setElements
  * @author euxane
  */
 class SubnetListFragment : BaseFragment() {
-  private val subnetListViewModel by lazy { ViewModelProviders.of(this).get(SubnetListViewModel::class.java) }
+  private val subnetListViewModel by lazy { ViewModelProviders.of(this)[SubnetListViewModel::class.java] }
   private val subnetListAdapter by lazy { SubnetInfoArrayAdapter(requireContext()) }
   private val subnetListObserver by lazy { Observer<List<SubnetInfo>> { subnetListAdapter.setElements(it) } }
   private lateinit var statusSubnetListFragmentBinding: StatusSubnetListFragmentBinding

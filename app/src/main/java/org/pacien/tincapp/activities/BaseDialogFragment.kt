@@ -28,5 +28,5 @@ import android.view.LayoutInflater
 abstract class BaseDialogFragment : DialogFragment() {
   protected val parentActivity by lazy { activity as BaseActivity }
   // getLayoutInflater() calls onCreateDialog. See https://stackoverflow.com/a/15152788
-  protected val dialogLayoutInflater by lazy { activity!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater }
+  protected val dialogLayoutInflater by lazy { requireActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater }
 }

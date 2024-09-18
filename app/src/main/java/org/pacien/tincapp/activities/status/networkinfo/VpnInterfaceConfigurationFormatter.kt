@@ -29,7 +29,7 @@ object VpnInterfaceConfigurationFormatter {
   private val resources by lazy { App.getResources() }
 
   fun formatList(list: List<Any>?) = when {
-    list != null && list.isNotEmpty() -> list.joinToString("\n", transform = this::formatListElement)
+    !list.isNullOrEmpty() -> list.joinToString("\n", transform = this::formatListElement)
     else -> resources.getString(R.string.status_network_info_value_none)
   }
 

@@ -39,8 +39,8 @@ abstract class ConfigurationToolDialogFragment : BaseDialogFragment() {
       .setTitle(title)
       .setView(viewBinding.root)
       .setPositiveButton(applyButton) { _, _ -> applyAction(viewBinding) }
-      .setNegativeButton(R.string.generic_action_cancel) { _, _ -> Unit }
-      .create()!!
+      .setNegativeButton(R.string.generic_action_cancel) { _, _ -> }
+      .create()
 
   protected fun execAction(@StringRes label: Int, action: CompletableFuture<Unit>) {
     ProgressModal.show(parentActivity, getString(label)).let { progressDialog ->

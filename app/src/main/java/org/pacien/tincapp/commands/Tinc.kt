@@ -53,7 +53,7 @@ object Tinc {
 
   fun info(netName: String, node: String): CompletableFuture<String> =
     Executor.call(newCommand(netName).withArguments("info", node))
-      .thenApply<String> { it.joinToString("\n") }
+      .thenApply { it.joinToString("\n") }
 
   fun init(netName: String, nodeName: String): CompletableFuture<String> =
     if (netName.isBlank())
@@ -62,7 +62,7 @@ object Tinc {
       Executor.call(Command(AppPaths.tinc().absolutePath)
         .withOption("config", AppPaths.confDir(netName).absolutePath)
         .withArguments("init", nodeName))
-        .thenApply<String> { it.joinToString("\n") }
+        .thenApply { it.joinToString("\n") }
 
   fun join(netName: String, invitationUrl: String): CompletableFuture<String> =
     if (netName.isBlank())
@@ -71,7 +71,7 @@ object Tinc {
       Executor.call(Command(AppPaths.tinc().absolutePath)
         .withOption("config", AppPaths.confDir(netName).absolutePath)
         .withArguments("join", invitationUrl))
-        .thenApply<String> { it.joinToString("\n") }
+        .thenApply { it.joinToString("\n") }
 
   fun log(netName: String, level: Int? = null): Process =
     Executor.run(newCommand(netName)

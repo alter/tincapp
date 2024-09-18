@@ -18,7 +18,6 @@
 
 package org.pacien.tincapp.activities.start
 
-import androidx.lifecycle.Observer
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -40,14 +39,14 @@ class NetworkListFragment : BaseFragment() {
   private val networkListViewModel by lazy { NetworkListViewModel() }
   private val networkListAdapter by lazy { ArrayAdapter<String>(requireContext(), R.layout.start_network_list_item) }
   private lateinit var startNetworkListBinding: StartNetworkListBinding
-  var connectToNetworkAction = { _: String -> Unit }
+  var connectToNetworkAction = { _: String -> }
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    networkListViewModel.networkList.observe(this, Observer { updateNetworkList(it.orEmpty()) })
+    networkListViewModel.networkList.observe(this) { updateNetworkList(it.orEmpty()) }
   }
 
-  override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+  override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
     startNetworkListBinding = StartNetworkListBinding.inflate(inflater, container, false)
     return startNetworkListBinding.root
   }

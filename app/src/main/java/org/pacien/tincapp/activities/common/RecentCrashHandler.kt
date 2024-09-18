@@ -42,7 +42,7 @@ class RecentCrashHandler(private val parentActivity: BaseActivity) {
       .setTitle(R.string.crash_modal_title)
       .setMessage(makeMessage())
       .setNeutralButton(R.string.crash_modal_action_send_report) { _, _ -> sendReportMail() }
-      .setPositiveButton(R.string.generic_action_close) { _, _ -> Unit }
+      .setPositiveButton(R.string.generic_action_close) { _, _ -> }
       .show()
   }
 

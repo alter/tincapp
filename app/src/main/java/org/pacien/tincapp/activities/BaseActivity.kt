@@ -87,7 +87,7 @@ abstract class BaseActivity : AppCompatActivity() {
         resources.getString(R.string.about_app_license) + "\n\n" +
         AppInfo.all())
       .setNeutralButton(R.string.about_app_open_project_website) { _, _ -> App.openURL(resources.getString(R.string.about_app_website_url)) }
-      .setPositiveButton(R.string.generic_action_close) { _, _ -> Unit }
+      .setPositiveButton(R.string.generic_action_close) { _, _ -> }
       .show()
   }
 
@@ -104,7 +104,7 @@ abstract class BaseActivity : AppCompatActivity() {
   fun showErrorDialog(msg: String, docTopic: String? = null): AlertDialog =
     AlertDialog.Builder(this)
       .setTitle(R.string.generic_title_error).setMessage(msg)
-      .setPositiveButton(R.string.generic_action_close) { _, _ -> Unit }
+      .setPositiveButton(R.string.generic_action_close) { _, _ -> }
       .apply {
         if (docTopic != null)
           setNeutralButton(R.string.notification_error_action_open_manual) { _, _ ->

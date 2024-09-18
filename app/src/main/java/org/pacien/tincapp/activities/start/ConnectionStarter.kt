@@ -59,7 +59,7 @@ class ConnectionStarter(private val parentActivity: StartActivity) {
       .setTitle(R.string.decrypt_key_modal_title)
       .setView(dialogViewBinding.root)
       .setPositiveButton(R.string.decrypt_key_modal_action_unlock) { _, _ -> tryStart(passphrase = dialogViewBinding.passphrase.text.toString()) }
-      .setNegativeButton(R.string.decrypt_key_modal_action_cancel) { _, _ -> Unit }
+      .setNegativeButton(R.string.decrypt_key_modal_action_cancel) { _, _ -> }
       .create()
 
     dialogViewBinding.passphrase.on(EditorInfo.IME_ACTION_DONE) {

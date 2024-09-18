@@ -42,7 +42,7 @@ class NodeListFragment : BaseFragment() {
   private val vpnService = TincVpnService
   private val tincCtl = Tinc
   private val netName by lazy { vpnService.getCurrentNetName()!! }
-  private val nodeListViewModel by lazy { ViewModelProvider(this).get(NodeListViewModel::class.java) }
+  private val nodeListViewModel by lazy { ViewModelProvider(this)[NodeListViewModel::class.java] }
   private val nodeListAdapter by lazy { NodeInfoArrayAdapter(requireContext(), this::onItemClick) }
   private lateinit var statusNodeListFragmentBinding: StatusNodeListFragmentBinding
 
@@ -79,7 +79,7 @@ class NodeListFragment : BaseFragment() {
     AlertDialog.Builder(requireContext())
       .setTitle(R.string.status_node_info_dialog_title)
       .setView(dialogTextViewBinding.root)
-      .setPositiveButton(R.string.status_node_info_dialog_close_action) { _, _ -> Unit }
+      .setPositiveButton(R.string.status_node_info_dialog_close_action) { _, _ -> }
       .show()
 
     tincCtl.info(netName, nodeName).thenAccept { nodeInfo ->

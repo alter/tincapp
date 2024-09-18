@@ -35,7 +35,7 @@ import org.pacien.tincapp.databinding.ViewLogActivityBinding
  */
 class ViewLogActivity : BaseActivity() {
   private val viewLogActivityBinding by lazy { ViewLogActivityBinding.inflate(layoutInflater) }
-  private val viewModel by lazy { ViewModelProviders.of(this).get(LogViewModel::class.java) }
+  private val viewModel by lazy { ViewModelProviders.of(this)[LogViewModel::class.java] }
   private val logObserver: Observer<List<String>> = Observer { showLog(it) }
   private var toggleButton: MenuItem? = null
 
