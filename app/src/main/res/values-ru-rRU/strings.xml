@@ -80,11 +80,6 @@
 	<string name="configure_tools_message_invalid_network_name">Недопустимое имя сети.</string>
 	<string name="configure_tools_message_network_configuration_written">Записана конфигурация сети.</string>
 
-	<string name="configure_activity_title_internal_paths_info">Информация о внутренних путях</string>
-	<string name="configure_path_info_title_configuration_directory">Каталог конфигурации</string>
-	<string name="configure_path_info_title_log_directory">Каталог журналов</string>
-	<string name="configure_path_info_title_tinc_binary">исполняемый файл tinc</string>
-
 	<string name="configure_activity_title_tools">Инструменты</string>
 	<string name="configure_tools_action_generate_node_configuration_and_keys">Генерировать конфигурацию узла и ключи</string>
 	<string name="configure_tools_action_join_network_via_invitation_url">Присоединиться к сети через URL-адрес приглашения</string>

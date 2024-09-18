@@ -80,10 +80,6 @@
 	<string name="configure_tools_message_invalid_network_name">网络名称无效。</string>
 	<string name="configure_tools_message_network_configuration_written">网络配置写入成功。</string>
 
-	<string name="configure_path_info_title_configuration_directory">配置目录</string>
-	<string name="configure_path_info_title_log_directory">日志目录</string>
-	<string name="configure_path_info_title_tinc_binary">Tinc 二进制文件</string>
-
 	<string name="configure_activity_title_tools">工具</string>
 	<string name="configure_tools_action_generate_node_configuration_and_keys">生成节点配置和密钥</string>
 	<string name="configure_tools_action_join_network_via_invitation_url">通过邀请 URL 加入网络</string>

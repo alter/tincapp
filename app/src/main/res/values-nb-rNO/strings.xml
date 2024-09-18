@@ -80,10 +80,6 @@
 	<string name="configure_tools_message_invalid_network_name">Ugyldig nettverksnavn.</string>
 	<string name="configure_tools_message_network_configuration_written">Nettverksoppsett skrevet.</string>
 
-	<string name="configure_path_info_title_configuration_directory">Oppsettsmappe</string>
-	<string name="configure_path_info_title_log_directory">Loggingsmappe</string>
-	<string name="configure_path_info_title_tinc_binary">tinc-binærfil</string>
-
 	<string name="configure_activity_title_tools">Verktøy</string>
 	<string name="configure_tools_action_generate_node_configuration_and_keys">Generer nodeoppsett og nøkler</string>
 	<string name="configure_tools_action_join_network_via_invitation_url">Ta del i nettverk via invitasjonsnettadresse.</string>
