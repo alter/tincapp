@@ -57,9 +57,9 @@ class NodeListFragment : BaseFragment() {
   }
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    statusNodeListFragmentBinding.statusNodeList.adapter = nodeListAdapter
     statusNodeListFragmentBinding.statusNodeList.hideTopSeparator()
     statusNodeListFragmentBinding.statusNodeList.hideBottomSeparator()
-    statusNodeListFragmentBinding.statusNodeList.adapter = nodeListAdapter
   }
 
   private fun updateNodeList(nodes: List<NodeInfo>) {

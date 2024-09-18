@@ -54,10 +54,10 @@ class NetworkListFragment : BaseFragment() {
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     val listHeaderView = layoutInflater.inflate(R.layout.start_network_list_header, startNetworkListBinding.root, false)
+    startNetworkListBinding.startNetworkList.adapter = networkListAdapter
     startNetworkListBinding.startNetworkList.addHeaderView(listHeaderView, null, false)
     startNetworkListBinding.startNetworkList.hideBottomSeparator()
     startNetworkListBinding.startNetworkList.onItemClickListener = AdapterView.OnItemClickListener(this::onItemClick)
-    startNetworkListBinding.startNetworkList.adapter = networkListAdapter
   }
 
   @Suppress("UNUSED_PARAMETER")
