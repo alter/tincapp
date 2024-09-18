@@ -85,6 +85,20 @@
             </intent-filter>
         </service>
 
+        <provider
+            android:name="org.pacien.tincapp.storageprovider.FilesDocumentsProvider"
+            android:authorities="org.pacien.tincapp.files"
+            android:exported="true"
+            android:grantUriPermissions="true"
+            android:permission="android.permission.MANAGE_DOCUMENTS">
+            <intent-filter>
+                <action android:name="android.content.action.DOCUMENTS_PROVIDER" />
+            </intent-filter>
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
     </application>
 
 </manifest>
