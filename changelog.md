@@ -5,6 +5,8 @@ Releases are tracked and referred to using git tags.
 
 ## v0.41 -- (next release)
 - rename app from "Tinc App" to "Tinc Mesh VPN" (more descriptive)
+- share configuration and log directories with explicit action
+- move configuration and log directories back to internal private storage
 
 ## v0.40 -- 2024-08-31
 - update Android SDK target API to 34 (Android 14)
