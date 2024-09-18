@@ -76,7 +76,7 @@ class NodeListFragment : BaseFragment() {
   private fun showNodeInfo(nodeName: String) {
     val dialogTextViewBinding = StatusNodeInfoDialogBinding.inflate(layoutInflater)
 
-    AlertDialog.Builder(context!!)
+    AlertDialog.Builder(requireContext())
       .setTitle(R.string.status_node_info_dialog_title)
       .setView(dialogTextViewBinding.root)
       .setPositiveButton(R.string.status_node_info_dialog_close_action) { _, _ -> Unit }
