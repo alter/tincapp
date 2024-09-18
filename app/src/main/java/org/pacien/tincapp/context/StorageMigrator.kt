@@ -38,11 +38,11 @@ class StorageMigrator {
   }
 
   private fun migrateConfigurationDirectory() {
-    val oldConfigDir = context.filesDir
+    val oldConfigDir = context.getExternalFilesDir(null)
     if (oldConfigDir == null || oldConfigDir.listFiles().isNullOrEmpty()) return // nothing to do
 
     try {
-      val newConfigDir = context.getExternalFilesDir(null)!!
+      val newConfigDir = context.filesDir
       log.info(
         "Migrating files present in old configuration directory at {} to {}",
         oldConfigDir.absolutePath,
@@ -57,7 +57,7 @@ class StorageMigrator {
   }
 
   private fun migrateLogDirectory() {
-    val oldLogDir = context.cacheDir
+    val oldLogDir = context.externalCacheDir
     if (oldLogDir == null || oldLogDir.listFiles().isNullOrEmpty()) return // nothing to do
 
     try {
