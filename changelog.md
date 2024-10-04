@@ -3,6 +3,9 @@
 This file lists notable changes that have been made to the application on each release.
 Releases are tracked and referred to using git tags.
 
+## v0.42 -- 2024-10-04
+- fix automatic config dir migration issue
+
 ## v0.41 -- 2024-09-18
 - rename app from "Tinc App" to "Tinc Mesh VPN" (more descriptive)
 - make config and logs dirs accessible via the system's built-in file manager
