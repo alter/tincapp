@@ -1,6 +1,6 @@
 /*
  * Tinc Mesh VPN: Android client and user interface
- * Copyright (C) 2017-2023 Euxane P. TRAN-GIRARD
+ * Copyright (C) 2017-2024 Euxane P. TRAN-GIRARD
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -40,11 +40,12 @@ class StorageMigrator {
   }
 
   private fun migrateConfigurationDirectory() {
-    val oldConfigDir = context.getExternalFilesDir(null)
-    if (oldConfigDir == null || oldConfigDir.listFiles().isNullOrEmpty()) return // nothing to do
+    val externalStorageDir = context.getExternalFilesDir(null) ?: return
+    val oldConfigDir = File(externalStorageDir, "networks")
+    if (!oldConfigDir.exists()) return
 
     try {
-      val newConfigDir = context.filesDir
+      val newConfigDir = AppPaths.confDir()
       log.info(
         "Migrating files present in old configuration directory at {} to {}",
         oldConfigDir.absolutePath,
