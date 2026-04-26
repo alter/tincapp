@@ -1,0 +1,16 @@
+.git
+.gradle
+build
+**/build
+.cxx
+**/.cxx
+.externalNativeBuild
+**/.externalNativeBuild
+.idea
+*.iml
+local.properties
+keystore.properties
+keystore/
+build-output/
+*.apk
+.DS_Store
