@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+ * Tinc Mesh VPN: Android client and user interface
+ * Copyright (C) 2017-2024 Euxane P. TRAN-GIRARD
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="pickAction"
+            type="kotlin.jvm.functions.Function0&lt;kotlin.Unit>" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/dialog_horizontal_margin"
+        android:paddingTop="@dimen/dialog_vertical_margin"
+        android:paddingRight="@dimen/dialog_horizontal_margin"
+        android:paddingBottom="@dimen/dialog_vertical_margin">
+
+        <EditText
+            android:id="@+id/net_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/configure_tools_import_network_field_net_name_hint"
+            android:importantForAutofill="no"
+            android:inputType="text" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/archive_path"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:focusable="false"
+                android:hint="@string/configure_tools_import_network_field_archive_hint"
+                android:importantForAutofill="no"
+                android:inputType="none"
+                android:onClick="@{() -> pickAction.invoke()}" />
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/configure_tools_import_network_action_pick_archive"
+                android:onClick="@{() -> pickAction.invoke()}"
+                android:src="@drawable/ic_baseline_folder_open_primary_24dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</layout>

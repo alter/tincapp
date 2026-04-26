@@ -26,6 +26,7 @@ import org.pacien.tincapp.activities.BaseFragment
 import org.pacien.tincapp.activities.configure.tools.ConfigurationToolDialogFragment
 import org.pacien.tincapp.activities.configure.tools.EncryptDecryptPrivateKeysToolDialogFragment
 import org.pacien.tincapp.activities.configure.tools.GenerateConfigToolDialogFragment
+import org.pacien.tincapp.activities.configure.tools.ImportNetworkToolDialogFragment
 import org.pacien.tincapp.activities.configure.tools.JoinNetworkToolDialogFragment
 import org.pacien.tincapp.databinding.ConfigureToolsFragmentBinding
 
@@ -35,12 +36,14 @@ import org.pacien.tincapp.databinding.ConfigureToolsFragmentBinding
 class ToolsFragment : BaseFragment() {
   private val generateConfigTool by lazy { GenerateConfigToolDialogFragment() }
   private val joinNetworkTool by lazy { JoinNetworkToolDialogFragment() }
+  private val importNetworkTool by lazy { ImportNetworkToolDialogFragment() }
   private val encryptDecryptPrivateKeysTool by lazy { EncryptDecryptPrivateKeysToolDialogFragment() }
 
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
     val binding = ConfigureToolsFragmentBinding.inflate(inflater, container, false)
     binding.generateConfigAction = openDialog(generateConfigTool)
     binding.joinNetworkAction = openDialog(joinNetworkTool)
+    binding.importNetworkAction = openDialog(importNetworkTool)
     binding.encryptDecryptPrivateKeysAction = openDialog(encryptDecryptPrivateKeysTool)
     return binding.root
   }
