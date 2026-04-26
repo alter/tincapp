@@ -20,7 +20,7 @@ plugins {
   id 'com.android.application'
   id 'kotlin-android'
   id 'kotlin-kapt'
-  id 'com.github.triplet.play' version '2.1.0'
+  id 'com.github.triplet.play' version '2.1.0' apply false
 }
 
 def keystorePropertiesFile = rootProject.file("keystore.properties")
@@ -28,6 +28,8 @@ def keystoreProperties = new Properties()
 if (keystorePropertiesFile.exists()) keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 def signingConfigured = keystoreProperties['storeFile'] != null
 def playApiConfigured = keystoreProperties['apiKeyFile'] != null
+
+if (playApiConfigured) apply plugin: 'com.github.triplet.play'
 
 android {
   compileSdkVersion 34
@@ -108,8 +110,8 @@ repositories {
   google()
 }
 
-play {
-  if (playApiConfigured) serviceAccountCredentials = file(keystoreProperties['apiKeyFile'])
+if (playApiConfigured) play {
+  serviceAccountCredentials = file(keystoreProperties['apiKeyFile'])
   track = 'beta'
   resolutionStrategy = "auto"
 }
