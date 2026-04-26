@@ -51,11 +51,21 @@ RUN yes | sdkmanager --licenses >/dev/null && \
       "cmake;${ANDROID_CMAKE_VERSION}" \
     && yes | sdkmanager --licenses >/dev/null
 
+# Pre-warm the Gradle wrapper distribution into an image layer so each
+# container start does not re-download gradle-*-all.zip. Only the wrapper
+# scripts are copied here, which change rarely, so the layer caches well.
+COPY gradlew /tmp/gradle-warmup/gradlew
+COPY gradle /tmp/gradle-warmup/gradle
+RUN chmod +x /tmp/gradle-warmup/gradlew && \
+    cd /tmp/gradle-warmup && \
+    touch settings.gradle && \
+    ./gradlew --no-daemon --version && \
+    rm -rf /tmp/gradle-warmup
+
 COPY docker/build-apk.sh /usr/local/bin/build-apk
 RUN chmod +x /usr/local/bin/build-apk
 
 WORKDIR /workspace
-VOLUME ["/workspace", "/keystore", "/output", "/gradle-cache"]
 
 ENTRYPOINT ["/usr/local/bin/build-apk"]
 CMD ["assembleRelease"]
