@@ -86,8 +86,15 @@ if [[ "${#GRADLE_TASKS[@]}" -eq 0 ]]; then
   GRADLE_TASKS=("assembleRelease")
 fi
 
-echo "==> Running: ./gradlew --no-daemon ${GRADLE_TASKS[*]}"
-./gradlew --no-daemon "${GRADLE_TASKS[@]}"
+# Bump default 30s HTTP timeouts so slow Maven Central reads do not abort
+# the build on flaky networks.
+GRADLE_NET_OPTS=(
+  "-Dorg.gradle.internal.http.connectionTimeout=180000"
+  "-Dorg.gradle.internal.http.socketTimeout=180000"
+)
+
+echo "==> Running: ./gradlew --no-daemon ${GRADLE_NET_OPTS[*]} ${GRADLE_TASKS[*]}"
+./gradlew --no-daemon "${GRADLE_NET_OPTS[@]}" "${GRADLE_TASKS[@]}"
 
 echo "==> Collecting APKs into ${OUTPUT_DIR}"
 shopt -s globstar nullglob
