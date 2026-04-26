@@ -24,6 +24,7 @@ ARG ANDROID_CMAKE_VERSION=3.22.1
 ENV ANDROID_HOME=${ANDROID_SDK_ROOT} \
     ANDROID_SDK_ROOT=${ANDROID_SDK_ROOT} \
     GRADLE_USER_HOME=/gradle-cache \
+    GRADLE_PREBAKE=/opt/gradle-prebake \
     DEBIAN_FRONTEND=noninteractive
 
 # Native build of bundled tinc/LibreSSL/LZO is autotools-based: keep these tools handy.
@@ -52,14 +53,18 @@ RUN yes | sdkmanager --licenses >/dev/null && \
     && yes | sdkmanager --licenses >/dev/null
 
 # Pre-warm the Gradle wrapper distribution into an image layer so each
-# container start does not re-download gradle-*-all.zip. Only the wrapper
-# scripts are copied here, which change rarely, so the layer caches well.
+# container start does not re-download gradle-*-all.zip. We deliberately
+# bake into ${GRADLE_PREBAKE}, NOT into ${GRADLE_USER_HOME}, because users
+# typically bind-mount a host directory at /gradle-cache for Maven
+# dependency caching, which would otherwise hide everything baked in.
+# The entrypoint seeds the (possibly empty) /gradle-cache from this path
+# at container start.
 COPY gradlew /tmp/gradle-warmup/gradlew
 COPY gradle /tmp/gradle-warmup/gradle
 RUN chmod +x /tmp/gradle-warmup/gradlew && \
     cd /tmp/gradle-warmup && \
     touch settings.gradle && \
-    ./gradlew --no-daemon --version && \
+    GRADLE_USER_HOME=${GRADLE_PREBAKE} ./gradlew --no-daemon --version && \
     rm -rf /tmp/gradle-warmup
 
 COPY docker/build-apk.sh /usr/local/bin/build-apk

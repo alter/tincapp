@@ -81,6 +81,19 @@ if [[ ! -x ./gradlew ]]; then
   chmod +x ./gradlew
 fi
 
+# When the user bind-mounts a host directory at ${GRADLE_USER_HOME} for
+# Maven dependency caching, the mount hides the Gradle distribution that
+# was baked into the image. Seed the mount from the prebake on first run
+# so the wrapper does not re-download gradle-*-all.zip every time.
+GRADLE_PREBAKE="${GRADLE_PREBAKE:-/opt/gradle-prebake}"
+GRADLE_USER_HOME="${GRADLE_USER_HOME:-/gradle-cache}"
+if [[ -d "${GRADLE_PREBAKE}" && ! -d "${GRADLE_USER_HOME}/wrapper/dists" ]]; then
+  echo "==> Seeding ${GRADLE_USER_HOME} from ${GRADLE_PREBAKE}"
+  mkdir -p "${GRADLE_USER_HOME}"
+  cp -an "${GRADLE_PREBAKE}/." "${GRADLE_USER_HOME}/"
+fi
+export GRADLE_USER_HOME
+
 GRADLE_TASKS=("$@")
 if [[ "${#GRADLE_TASKS[@]}" -eq 0 ]]; then
   GRADLE_TASKS=("assembleRelease")
