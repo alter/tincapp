@@ -24,9 +24,10 @@ plugins {
 }
 
 def keystorePropertiesFile = rootProject.file("keystore.properties")
-def keystoreAvailable = keystorePropertiesFile.exists()
 def keystoreProperties = new Properties()
-if (keystoreAvailable) keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+if (keystorePropertiesFile.exists()) keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+def signingConfigured = keystoreProperties['storeFile'] != null
+def playApiConfigured = keystoreProperties['apiKeyFile'] != null
 
 android {
   compileSdkVersion 34
@@ -43,7 +44,7 @@ android {
     }
   }
 
-  if (keystoreAvailable) signingConfigs {
+  if (signingConfigured) signingConfigs {
     release {
       keyAlias keystoreProperties['keyAlias']
       keyPassword keystoreProperties['keyPassword']
@@ -54,7 +55,7 @@ android {
 
   buildTypes {
     release {
-      if (keystoreAvailable) signingConfig signingConfigs.release
+      if (signingConfigured) signingConfig signingConfigs.release
       minifyEnabled true
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
@@ -108,7 +109,7 @@ repositories {
 }
 
 play {
-  if (keystoreAvailable) serviceAccountCredentials = file(keystoreProperties['apiKeyFile'])
+  if (playApiConfigured) serviceAccountCredentials = file(keystoreProperties['apiKeyFile'])
   track = 'beta'
   resolutionStrategy = "auto"
 }
