@@ -32,15 +32,22 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 RUN set -eux && \
-    curl -fSL \
-      --retry 10 \
-      --retry-delay 5 \
-      --retry-max-time 3600 \
-      --retry-all-errors \
-      --connect-timeout 30 \
-      --http1.1 \
-      "https://dl.google.com/android/repository/android-ndk-${ANDROID_NDK_VERSION}-linux.zip" \
-      -o /tmp/ndk.zip && \
+    NDK_URL="https://dl.google.com/android/repository/android-ndk-${ANDROID_NDK_VERSION}-linux.zip" && \
+    success=0 && \
+    for attempt in $(seq 1 30); do \
+      echo "==> NDK download attempt ${attempt}..."; \
+      if curl -fSL \
+            --connect-timeout 30 \
+            --http1.1 \
+            --continue-at - \
+            "${NDK_URL}" \
+            -o /tmp/ndk.zip; then \
+        success=1; break; \
+      fi; \
+      echo "==> Attempt ${attempt} failed, retrying in 10s..."; \
+      sleep 10; \
+    done && \
+    [ "${success}" = "1" ] && \
     unzip -q /tmp/ndk.zip -d /opt && \
     mv /opt/android-ndk-${ANDROID_NDK_VERSION} ${ANDROID_NDK} && \
     rm /tmp/ndk.zip
