@@ -30,3 +30,4 @@ keystore.properties
 /build-output/
 /.tooling/
 /.gradle-cache/
+/.quic-cache/

@@ -1,0 +1,45 @@
+# Tinc Mesh VPN: tinc-quic native binaries builder
+#
+# Cross-compiles libtincd-quic.so / libtinc-quic.so / libmsquic.so for
+# all four Android ABIs that the app supports. Output is dropped into a
+# mounted directory ready to be moved into app/src/main/jniLibs/.
+#
+# Build:
+#   docker build -f docker/Dockerfile.quic-binaries -t tincapp-quic-builder docker/
+#
+# Run (writes binaries straight into the project's jniLibs tree):
+#   mkdir -p .quic-cache app/src/main/jniLibs
+#   docker run --rm \
+#     -v "$(pwd)/app/src/main/jniLibs":/output \
+#     -v "$(pwd)/.quic-cache":/cache \
+#     tincapp-quic-builder
+#
+# /cache holds source trees and per-ABI build outputs across runs.
+# Subsequent builds skip already-compiled stages and finish in minutes.
+
+FROM ubuntu:22.04
+
+ARG ANDROID_NDK_VERSION=r26b
+
+ENV ANDROID_NDK=/opt/android-ndk \
+    DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+      build-essential cmake ninja-build \
+      autoconf automake libtool pkg-config \
+      perl python3 git curl unzip ca-certificates \
+      file \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN curl -fsSL "https://dl.google.com/android/repository/android-ndk-${ANDROID_NDK_VERSION}-linux.zip" \
+      -o /tmp/ndk.zip && \
+    unzip -q /tmp/ndk.zip -d /opt && \
+    mv /opt/android-ndk-${ANDROID_NDK_VERSION} ${ANDROID_NDK} && \
+    rm /tmp/ndk.zip
+
+COPY build-quic-binaries.sh /usr/local/bin/build-quic-binaries
+RUN chmod +x /usr/local/bin/build-quic-binaries
+
+WORKDIR /work
+
+ENTRYPOINT ["/usr/local/bin/build-quic-binaries"]
