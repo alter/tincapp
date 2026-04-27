@@ -17,7 +17,12 @@ ARG ANDROID_SDK_ROOT=/opt/android-sdk
 # Pin tooling so rebuilds are reproducible.
 ARG CMDLINE_TOOLS_VERSION=11076708
 ARG ANDROID_PLATFORM=34
-ARG ANDROID_BUILD_TOOLS=34.0.0
+# 34.0.5 is the first 34.x build-tools release shipping linux-aarch64
+# archives. sdkmanager picks the right host arch from the JVM, so the
+# image works natively on both linux/amd64 and linux/arm64 (Apple
+# Silicon) without ELF emulation - which is required because AAPT2 does
+# not run reliably under Rosetta or qemu-user on Apple Silicon.
+ARG ANDROID_BUILD_TOOLS=34.0.5
 ARG ANDROID_NDK_VERSION=26.1.10909125
 ARG ANDROID_CMAKE_VERSION=3.22.1
 
