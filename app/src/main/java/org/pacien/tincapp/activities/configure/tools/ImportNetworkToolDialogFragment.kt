@@ -18,11 +18,10 @@
 
 package org.pacien.tincapp.activities.configure.tools
 
-import android.app.Activity
-import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.OpenableColumns
+import androidx.activity.result.contract.ActivityResultContracts
 import java8.util.concurrent.CompletableFuture
 import org.pacien.tincapp.R
 import org.pacien.tincapp.commands.Executor.supplyAsyncTask
@@ -40,7 +39,6 @@ import java.util.zip.ZipInputStream
  */
 class ImportNetworkToolDialogFragment : ConfigurationToolDialogFragment() {
   companion object {
-    private const val REQUEST_PICK_ARCHIVE = 0x12C0
     private const val MAX_TEXT_SCAN_BYTES = 1L * 1024 * 1024
     private val ARCHIVE_MIME_TYPES = arrayOf(
       "application/zip",
@@ -52,14 +50,16 @@ class ImportNetworkToolDialogFragment : ConfigurationToolDialogFragment() {
   private var importDialog: ConfigureToolsDialogNetworkImportBinding? = null
   private var selectedArchive: Uri? = null
 
-  override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-    if (requestCode == REQUEST_PICK_ARCHIVE && resultCode == Activity.RESULT_OK) {
-      data?.data?.let { uri ->
+  // Registered eagerly as a property so it is available before the
+  // fragment reaches STARTED, which is what registerForActivityResult
+  // requires.
+  private val pickArchiveLauncher =
+    registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
+      if (uri != null) {
         selectedArchive = uri
         importDialog?.archivePath?.setText(displayNameOf(uri))
       }
     }
-  }
 
   override fun onCreateDialog(savedInstanceState: Bundle?) =
     makeImportDialog().let { newDialog ->
@@ -78,11 +78,7 @@ class ImportNetworkToolDialogFragment : ConfigurationToolDialogFragment() {
       .apply { pickAction = this@ImportNetworkToolDialogFragment::pickArchive }
 
   private fun pickArchive() {
-    val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
-      .addCategory(Intent.CATEGORY_OPENABLE)
-      .setType("*/*")
-      .putExtra(Intent.EXTRA_MIME_TYPES, ARCHIVE_MIME_TYPES)
-    startActivityForResult(intent, REQUEST_PICK_ARCHIVE)
+    pickArchiveLauncher.launch(ARCHIVE_MIME_TYPES)
   }
 
   private fun importNetwork(netName: String, archive: Uri?) {

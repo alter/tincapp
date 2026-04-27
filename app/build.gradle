@@ -106,14 +106,18 @@ dependencies {
 
   implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
   implementation 'net.sourceforge.streamsupport:streamsupport-cfuture:1.7.0'
-  implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+  // lifecycle-extensions was deprecated by AndroidX in 2020 and never
+  // updated past 2.2.0 - split into the modules we actually consume,
+  // pinned to a current line that still works on minSdk 21.
+  implementation 'androidx.lifecycle:lifecycle-livedata:2.8.7'
+  implementation 'androidx.lifecycle:lifecycle-viewmodel:2.8.7'
   implementation 'androidx.core:core-ktx:1.13.1'
   implementation 'com.google.android.material:material:1.12.0'
   implementation 'com.journeyapps:zxing-android-embedded:3.6.0'
   // bcpkix-jdk15on is end-of-life since 2022; jdk18on is the supported
   // line and 1.78 ships fixes for several PEM-parsing CVEs.
   implementation 'org.bouncycastle:bcpkix-jdk18on:1.78'
-  implementation 'org.slf4j:slf4j-api:1.7.30'
+  implementation 'org.slf4j:slf4j-api:1.7.36'
   implementation 'com.github.tony19:logback-android:2.0.0'
   // commons-configuration2:2.4 requires support for interface default methods, not available on SDK <24
   // The interpolator is disabled in ApacheConfiguration.loadSafeProperties to neutralise
