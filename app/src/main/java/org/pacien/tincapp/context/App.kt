@@ -24,7 +24,6 @@ import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.net.Uri
 import android.os.Build
-import android.os.Handler
 import androidx.annotation.StringRes
 import org.pacien.tincapp.BuildConfig
 import org.pacien.tincapp.R
@@ -38,7 +37,6 @@ class App : Application() {
   override fun onCreate() {
     super.onCreate()
     appContext = applicationContext
-    handler = Handler()
     AppLogger.configure()
 
     val logger = LoggerFactory.getLogger(this.javaClass)
@@ -58,7 +56,6 @@ class App : Application() {
 
   companion object {
     private var appContext: Context? = null
-    private var handler: Handler? = null
 
     val notificationManager: AppNotificationManager by lazy { AppNotificationManager(appContext!!) }
 

@@ -19,6 +19,8 @@
 package org.pacien.tincapp.extensions
 
 import org.apache.commons.configuration2.Configuration
+import org.apache.commons.configuration2.PropertiesConfiguration
+import org.apache.commons.configuration2.builder.fluent.Configurations
 import org.pacien.tincapp.data.CidrAddress
 import java.io.File
 
@@ -30,4 +32,12 @@ object ApacheConfiguration {
   fun Configuration.getCidrList(key: String): List<CidrAddress> = getStringList(key).map { CidrAddress.fromSlashSeparated(it) }
   fun Configuration.getIntList(key: String): List<Int> = getList(Int::class.java, key, emptyList())
   fun Configuration.getFile(key: String): File? = getString(key)?.let { File(it) }
+
+  // tinc config files never use ${var} substitutions; leaving the
+  // default ConfigurationInterpolator enabled exposes the parser to
+  // CVE-2022-33980-class lookups (script, dns, url) when an attacker
+  // controls the file content - e.g. through the network import
+  // feature. Disable interpolation entirely and return raw values.
+  fun loadSafeProperties(f: File): PropertiesConfiguration =
+    Configurations().properties(f).apply { interpolator = null }
 }

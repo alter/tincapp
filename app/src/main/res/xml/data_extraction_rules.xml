@@ -18,7 +18,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 
-<data-extraction-rules>
+<data-extraction-rules xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="FullBackupContent">
 
     <cloud-backup disableIfNoEncryptionCapabilities="true">
         <include
@@ -27,6 +28,9 @@
         <include
             domain="external"
             path="./" />
+        <!-- Private tinc keys never leave the device via cloud backup. -->
+        <exclude domain="file" path="networks/" />
+        <exclude domain="external" path="networks/" />
     </cloud-backup>
 
     <device-transfer>
@@ -36,6 +40,9 @@
         <include
             domain="external"
             path="./" />
+        <!-- Same protection during device-to-device transfer. -->
+        <exclude domain="file" path="networks/" />
+        <exclude domain="external" path="networks/" />
     </device-transfer>
 
 </data-extraction-rules>

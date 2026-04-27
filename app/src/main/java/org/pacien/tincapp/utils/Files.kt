@@ -18,7 +18,6 @@
 
 package org.pacien.tincapp.utils
 
-import android.annotation.SuppressLint
 import java.io.File
 
 /**
@@ -33,17 +32,6 @@ fun File.makePrivate() {
   if (this.isDirectory)
     for (file in this.listFiles()!!)
       file.makePrivate()
-}
-
-@SuppressLint("SetWorldReadable", "SetWorldWritable")
-fun File.makePublic() {
-  this.setExecutable(this.isDirectory, false)
-  this.setReadable(true, false)
-  this.setWritable(true, false)
-
-  if (this.isDirectory)
-    for (file in this.listFiles()!!)
-      file.makePublic()
 }
 
 fun File.isParentOf(childCandidate: File, strict: Boolean = true): Boolean {

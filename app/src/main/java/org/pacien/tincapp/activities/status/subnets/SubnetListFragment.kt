@@ -19,7 +19,7 @@
 package org.pacien.tincapp.activities.status.subnets
 
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -34,7 +34,7 @@ import org.pacien.tincapp.extensions.setElements
  * @author euxane
  */
 class SubnetListFragment : BaseFragment() {
-  private val subnetListViewModel by lazy { ViewModelProviders.of(this)[SubnetListViewModel::class.java] }
+  private val subnetListViewModel by lazy { ViewModelProvider(this)[SubnetListViewModel::class.java] }
   private val subnetListAdapter by lazy { SubnetInfoArrayAdapter(requireContext()) }
   private val subnetListObserver by lazy { Observer<List<SubnetInfo>> { subnetListAdapter.setElements(it) } }
   private lateinit var statusSubnetListFragmentBinding: StatusSubnetListFragmentBinding

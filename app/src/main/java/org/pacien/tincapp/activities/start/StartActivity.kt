@@ -58,7 +58,26 @@ class StartActivity : BaseActivity() {
     initNetworkListFragment()
 
     if (intent.action == Actions.ACTION_CONNECT && intent.data?.schemeSpecificPart != null)
-      connectionStarter.tryStart(intent.data!!.schemeSpecificPart, intent.data!!.fragment, false)
+      promptExternalConnect(intent.data!!.schemeSpecificPart, intent.data!!.fragment)
+  }
+
+  // Any app on the device can fire org.pacien.tincapp.intent.action.CONNECT
+  // with a tinc:// URI. Once the user has granted VPN permission once,
+  // Android no longer prompts before VpnService starts, so without an
+  // in-app confirmation an external intent could silently route the
+  // user's traffic through a different already-configured network.
+  // Show an explicit prompt and force displayStatus=true so the
+  // resulting connection is visible to the user.
+  private fun promptExternalConnect(netName: String, passphrase: String?) {
+    AlertDialog.Builder(this)
+      .setTitle(R.string.start_external_connect_title)
+      .setMessage(getString(R.string.start_external_connect_message_format, netName))
+      .setPositiveButton(R.string.start_external_connect_action) { _, _ ->
+        connectionStarter.tryStart(netName, passphrase, true)
+      }
+      .setNegativeButton(R.string.generic_action_cancel) { _, _ -> }
+      .setCancelable(true)
+      .show()
   }
 
   private fun initNetworkListFragment() {

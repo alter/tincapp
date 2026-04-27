@@ -79,6 +79,16 @@ android {
     viewBinding = true
   }
 
+  packaging {
+    resources {
+      // bcpkix-jdk18on / bcprov-jdk18on / bcutil-jdk18on each ship the
+      // same META-INF/versions/9/OSGI-INF/MANIFEST.MF, which the merger
+      // cannot resolve on its own. We do not need any OSGi manifests in
+      // the APK at all - drop them.
+      excludes += ['META-INF/versions/9/OSGI-INF/MANIFEST.MF']
+    }
+  }
+
   compileOptions {
     sourceCompatibility JavaVersion.VERSION_17
     targetCompatibility JavaVersion.VERSION_17
@@ -96,16 +106,24 @@ dependencies {
 
   implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
   implementation 'net.sourceforge.streamsupport:streamsupport-cfuture:1.7.0'
-  implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+  // lifecycle-extensions was deprecated by AndroidX in 2020 and never
+  // updated past 2.2.0 - split into the modules we actually consume,
+  // pinned to a current line that still works on minSdk 21.
+  implementation 'androidx.lifecycle:lifecycle-livedata:2.8.7'
+  implementation 'androidx.lifecycle:lifecycle-viewmodel:2.8.7'
   implementation 'androidx.core:core-ktx:1.13.1'
   implementation 'com.google.android.material:material:1.12.0'
   implementation 'com.journeyapps:zxing-android-embedded:3.6.0'
-  implementation 'org.bouncycastle:bcpkix-jdk15on:1.67'
-  implementation 'org.slf4j:slf4j-api:1.7.30'
+  // bcpkix-jdk15on is end-of-life since 2022; jdk18on is the supported
+  // line and 1.78 ships fixes for several PEM-parsing CVEs.
+  implementation 'org.bouncycastle:bcpkix-jdk18on:1.78'
+  implementation 'org.slf4j:slf4j-api:1.7.36'
   implementation 'com.github.tony19:logback-android:2.0.0'
   // commons-configuration2:2.4 requires support for interface default methods, not available on SDK <24
+  // The interpolator is disabled in ApacheConfiguration.loadSafeProperties to neutralise
+  // CVE-2022-33980-class lookup-injection on attacker-controlled config files.
   implementation('org.apache.commons:commons-configuration2:2.3') { exclude group: 'commons-logging', module: 'commons-logging' }
-  implementation('commons-beanutils:commons-beanutils:1.9.3') { exclude group: 'commons-logging', module: 'commons-logging' }
+  implementation('commons-beanutils:commons-beanutils:1.9.4') { exclude group: 'commons-logging', module: 'commons-logging' }
   implementation('commons-io:commons-io:2.13.0') { exclude group: 'commons-logging', module: 'commons-logging' }
 }
 

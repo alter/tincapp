@@ -18,18 +18,17 @@
 
 package org.pacien.tincapp.activities.configure.tools
 
-import android.app.Activity
-import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.OpenableColumns
+import androidx.activity.result.contract.ActivityResultContracts
 import java8.util.concurrent.CompletableFuture
 import org.pacien.tincapp.R
 import org.pacien.tincapp.commands.Executor.supplyAsyncTask
 import org.pacien.tincapp.context.AppPaths
 import org.pacien.tincapp.databinding.ConfigureToolsDialogNetworkImportBinding
 import org.pacien.tincapp.utils.isParentOf
-import org.pacien.tincapp.utils.makePublic
+import org.pacien.tincapp.utils.makePrivate
 import java.io.File
 import java.io.FileNotFoundException
 import java.util.zip.ZipEntry
@@ -40,7 +39,7 @@ import java.util.zip.ZipInputStream
  */
 class ImportNetworkToolDialogFragment : ConfigurationToolDialogFragment() {
   companion object {
-    private const val REQUEST_PICK_ARCHIVE = 0x12C0
+    private const val MAX_TEXT_SCAN_BYTES = 1L * 1024 * 1024
     private val ARCHIVE_MIME_TYPES = arrayOf(
       "application/zip",
       "application/x-zip-compressed",
@@ -51,14 +50,16 @@ class ImportNetworkToolDialogFragment : ConfigurationToolDialogFragment() {
   private var importDialog: ConfigureToolsDialogNetworkImportBinding? = null
   private var selectedArchive: Uri? = null
 
-  override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-    if (requestCode == REQUEST_PICK_ARCHIVE && resultCode == Activity.RESULT_OK) {
-      data?.data?.let { uri ->
+  // Registered eagerly as a property so it is available before the
+  // fragment reaches STARTED, which is what registerForActivityResult
+  // requires.
+  private val pickArchiveLauncher =
+    registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
+      if (uri != null) {
         selectedArchive = uri
         importDialog?.archivePath?.setText(displayNameOf(uri))
       }
     }
-  }
 
   override fun onCreateDialog(savedInstanceState: Bundle?) =
     makeImportDialog().let { newDialog ->
@@ -77,11 +78,7 @@ class ImportNetworkToolDialogFragment : ConfigurationToolDialogFragment() {
       .apply { pickAction = this@ImportNetworkToolDialogFragment::pickArchive }
 
   private fun pickArchive() {
-    val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
-      .addCategory(Intent.CATEGORY_OPENABLE)
-      .setType("*/*")
-      .putExtra(Intent.EXTRA_MIME_TYPES, ARCHIVE_MIME_TYPES)
-    startActivityForResult(intent, REQUEST_PICK_ARCHIVE)
+    pickArchiveLauncher.launch(ARCHIVE_MIME_TYPES)
   }
 
   private fun importNetwork(netName: String, archive: Uri?) {
@@ -117,6 +114,7 @@ class ImportNetworkToolDialogFragment : ConfigurationToolDialogFragment() {
     val resolver = parentActivity.contentResolver
     val cacheDir = parentActivity.cacheDir
     val invalidArchiveMsg = getString(R.string.configure_tools_import_network_message_invalid_archive)
+    val unsafeArchiveMsg = getString(R.string.configure_tools_import_network_message_unsafe_archive)
 
     return supplyAsyncTask {
       val target = AppPaths.confDir(netName)
@@ -133,12 +131,14 @@ class ImportNetworkToolDialogFragment : ConfigurationToolDialogFragment() {
         if (entryCount == 0)
           throw IllegalArgumentException(invalidArchiveMsg)
 
+        rejectInterpolation(staging, unsafeArchiveMsg)
+
         target.parentFile?.mkdirs()
         val source = effectiveRoot(staging)
         if (!source.renameTo(target)) {
           source.copyRecursively(target, overwrite = false)
         }
-        target.makePublic()
+        target.makePrivate()
       } catch (e: Exception) {
         target.deleteRecursively()
         throw e
@@ -172,6 +172,21 @@ class ImportNetworkToolDialogFragment : ConfigurationToolDialogFragment() {
   private fun effectiveRoot(staging: File): File {
     val children = staging.listFiles() ?: emptyArray()
     return if (children.size == 1 && children[0].isDirectory) children[0] else staging
+  }
+
+  // tinc config files never legitimately contain "${...}" expressions.
+  // commons-configuration2 2.3 evaluates such lookups (script, dns, url,
+  // etc.) on every getString() call, which would let a malicious archive
+  // execute code in the app context. We disable the interpolator on the
+  // parser side too, but reject the archive up-front as defense in depth.
+  private fun rejectInterpolation(staging: File, errorMessage: String) {
+    staging.walkTopDown()
+      .filter { it.isFile && it.length() <= MAX_TEXT_SCAN_BYTES }
+      .filter { it.extension.equals("conf", ignoreCase = true) || it.name == "invitation-data" }
+      .forEach { f ->
+        if (f.readText(Charsets.UTF_8).contains("\${"))
+          throw SecurityException(errorMessage)
+      }
   }
 
   private fun displayNameOf(uri: Uri): String {
