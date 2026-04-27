@@ -94,7 +94,11 @@ ANDROID_PACKAGES=(
 )
 
 echo "==> Ensuring SDK packages are present (sdkmanager is idempotent)"
-yes | sdkmanager --licenses >/dev/null
+# `yes` gets SIGPIPE (exit 141) when sdkmanager closes stdin after the
+# last license. Under `set -o pipefail` that aborts the script, even
+# though sdkmanager itself succeeded. Swallow `yes`'s exit code so the
+# pipeline reports only sdkmanager's status.
+(yes 2>/dev/null || true) | sdkmanager --licenses >/dev/null
 sdkmanager --install "${ANDROID_PACKAGES[@]}"
 
 # ---------------------------------------------------------------------------
