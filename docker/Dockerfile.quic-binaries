@@ -31,7 +31,15 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       file \
     && rm -rf /var/lib/apt/lists/*
 
-RUN curl -fsSL "https://dl.google.com/android/repository/android-ndk-${ANDROID_NDK_VERSION}-linux.zip" \
+RUN set -eux && \
+    curl -fSL \
+      --retry 10 \
+      --retry-delay 5 \
+      --retry-max-time 3600 \
+      --retry-all-errors \
+      --connect-timeout 30 \
+      --http1.1 \
+      "https://dl.google.com/android/repository/android-ndk-${ANDROID_NDK_VERSION}-linux.zip" \
       -o /tmp/ndk.zip && \
     unzip -q /tmp/ndk.zip -d /opt && \
     mv /opt/android-ndk-${ANDROID_NDK_VERSION} ${ANDROID_NDK} && \
