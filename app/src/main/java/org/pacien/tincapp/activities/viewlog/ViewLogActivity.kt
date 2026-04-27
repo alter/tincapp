@@ -19,7 +19,7 @@
 package org.pacien.tincapp.activities.viewlog
 
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
@@ -35,7 +35,7 @@ import org.pacien.tincapp.databinding.ViewLogActivityBinding
  */
 class ViewLogActivity : BaseActivity() {
   private val viewLogActivityBinding by lazy { ViewLogActivityBinding.inflate(layoutInflater) }
-  private val viewModel by lazy { ViewModelProviders.of(this)[LogViewModel::class.java] }
+  private val viewModel by lazy { ViewModelProvider(this)[LogViewModel::class.java] }
   private val logObserver: Observer<List<String>> = Observer { showLog(it) }
   private var toggleButton: MenuItem? = null
 
