@@ -31,6 +31,10 @@
 			type="kotlin.jvm.functions.Function0&lt;kotlin.Unit>"/>
 
 		<variable
+			name="importNetworkAction"
+			type="kotlin.jvm.functions.Function0&lt;kotlin.Unit>"/>
+
+		<variable
 			name="encryptDecryptPrivateKeysAction"
 			type="kotlin.jvm.functions.Function0&lt;kotlin.Unit>"/>
 
@@ -55,6 +59,16 @@
 			<TextView
 				style="@style/AppTheme.BlockTitle"
 				android:text="@string/configure_tools_action_join_network_via_invitation_url_qr_code"/>
+
+		</LinearLayout>
+
+		<LinearLayout
+			style="@style/AppTheme.ListBlock.Clickable"
+			android:onClick="@{() -> importNetworkAction.invoke()}">
+
+			<TextView
+				style="@style/AppTheme.BlockTitle"
+				android:text="@string/configure_tools_action_import_network_from_archive"/>
 
 		</LinearLayout>
 

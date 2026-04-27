@@ -95,6 +95,7 @@
 	<string name="configure_activity_title_tools">Tools</string>
 	<string name="configure_tools_action_generate_node_configuration_and_keys">Generate node configuration and keys</string>
 	<string name="configure_tools_action_join_network_via_invitation_url_qr_code">Join network via invitation URL or QR code</string>
+	<string name="configure_tools_action_import_network_from_archive">Import network from archive</string>
 	<string name="configure_tools_action_encrypt_decrypt_private_keys">Encrypt or decrypt private keys</string>
 
 	<string name="configure_tools_generate_config_title">New network</string>
@@ -109,6 +110,16 @@
 	<string name="configure_tools_join_network_action_scan_qr_code_action">Scan QR code</string>
 	<string name="configure_tools_join_network_action">Join</string>
 	<string name="configure_tools_join_network_joining">Joining network…</string>
+
+	<string name="configure_tools_import_network_title">Import network</string>
+	<string name="configure_tools_import_network_field_net_name_hint">Network name (optional)</string>
+	<string name="configure_tools_import_network_field_archive_hint">Archive (zip)</string>
+	<string name="configure_tools_import_network_action_pick_archive">Pick archive</string>
+	<string name="configure_tools_import_network_action">Import</string>
+	<string name="configure_tools_import_network_importing">Importing network…</string>
+	<string name="configure_tools_import_network_message_no_archive">No archive selected.</string>
+	<string name="configure_tools_import_network_message_invalid_archive">Selected file is empty or not a valid archive.</string>
+	<string name="configure_tools_import_network_message_already_exists_format">A network named \"%1$s\" already exists.</string>
 
 	<string name="configure_tools_private_keys_encryption_title">Private keys encryption</string>
 	<string name="configure_tools_private_key_encryption_current_passphrase">Current passphrase\n(leave empty if none)</string>

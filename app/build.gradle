@@ -20,16 +20,23 @@ plugins {
   id 'com.android.application'
   id 'kotlin-android'
   id 'kotlin-kapt'
-  id 'com.github.triplet.play' version '2.1.0'
+  id 'com.github.triplet.play' version '2.1.0' apply false
 }
 
 def keystorePropertiesFile = rootProject.file("keystore.properties")
-def keystoreAvailable = keystorePropertiesFile.exists()
 def keystoreProperties = new Properties()
-if (keystoreAvailable) keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+if (keystorePropertiesFile.exists()) keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+def signingConfigured = keystoreProperties['storeFile'] != null
+def playApiConfigured = keystoreProperties['apiKeyFile'] != null
+
+if (playApiConfigured) apply plugin: 'com.github.triplet.play'
 
 android {
   compileSdkVersion 34
+  // Pin to 35.0.0 (instead of AGP's 34.0.0 default) so the build can
+  // run natively on linux/arm64 hosts: 34.x has no linux-aarch64
+  // archive, 35.0.0 is the first version that does.
+  buildToolsVersion '35.0.0'
 
   defaultConfig {
     applicationId 'org.pacien.tincapp'
@@ -43,7 +50,7 @@ android {
     }
   }
 
-  if (keystoreAvailable) signingConfigs {
+  if (signingConfigured) signingConfigs {
     release {
       keyAlias keystoreProperties['keyAlias']
       keyPassword keystoreProperties['keyPassword']
@@ -54,7 +61,7 @@ android {
 
   buildTypes {
     release {
-      if (keystoreAvailable) signingConfig signingConfigs.release
+      if (signingConfigured) signingConfig signingConfigs.release
       minifyEnabled true
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
@@ -107,8 +114,8 @@ repositories {
   google()
 }
 
-play {
-  if (keystoreAvailable) serviceAccountCredentials = file(keystoreProperties['apiKeyFile'])
+if (playApiConfigured) play {
+  serviceAccountCredentials = file(keystoreProperties['apiKeyFile'])
   track = 'beta'
   resolutionStrategy = "auto"
 }
