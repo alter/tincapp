@@ -29,7 +29,7 @@ import org.pacien.tincapp.commands.Executor.supplyAsyncTask
 import org.pacien.tincapp.context.AppPaths
 import org.pacien.tincapp.databinding.ConfigureToolsDialogNetworkImportBinding
 import org.pacien.tincapp.utils.isParentOf
-import org.pacien.tincapp.utils.makePublic
+import org.pacien.tincapp.utils.makePrivate
 import java.io.File
 import java.io.FileNotFoundException
 import java.util.zip.ZipEntry
@@ -142,7 +142,7 @@ class ImportNetworkToolDialogFragment : ConfigurationToolDialogFragment() {
         if (!source.renameTo(target)) {
           source.copyRecursively(target, overwrite = false)
         }
-        target.makePublic()
+        target.makePrivate()
       } catch (e: Exception) {
         target.deleteRecursively()
         throw e

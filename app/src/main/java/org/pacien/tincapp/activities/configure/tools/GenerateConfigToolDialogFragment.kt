@@ -24,7 +24,7 @@ import org.pacien.tincapp.R
 import org.pacien.tincapp.commands.Tinc
 import org.pacien.tincapp.commands.TincApp
 import org.pacien.tincapp.context.AppPaths
-import org.pacien.tincapp.utils.makePublic
+import org.pacien.tincapp.utils.makePrivate
 
 /**
  * @author euxane
@@ -50,5 +50,5 @@ class GenerateConfigToolDialogFragment : ConfigurationToolDialogFragment() {
       .thenCompose { TincApp.removeScripts(netName) }
       .thenCompose { TincApp.generateIfaceCfgTemplate(netName) }
       .thenCompose { TincApp.setPassphrase(netName, newPassphrase = passphrase) }
-      .thenApply { AppPaths.confDir(netName).makePublic() })
+      .thenApply { AppPaths.confDir(netName).makePrivate() })
 }
