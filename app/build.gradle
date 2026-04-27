@@ -100,12 +100,16 @@ dependencies {
   implementation 'androidx.core:core-ktx:1.13.1'
   implementation 'com.google.android.material:material:1.12.0'
   implementation 'com.journeyapps:zxing-android-embedded:3.6.0'
-  implementation 'org.bouncycastle:bcpkix-jdk15on:1.67'
+  // bcpkix-jdk15on is end-of-life since 2022; jdk18on is the supported
+  // line and 1.78 ships fixes for several PEM-parsing CVEs.
+  implementation 'org.bouncycastle:bcpkix-jdk18on:1.78'
   implementation 'org.slf4j:slf4j-api:1.7.30'
   implementation 'com.github.tony19:logback-android:2.0.0'
   // commons-configuration2:2.4 requires support for interface default methods, not available on SDK <24
+  // The interpolator is disabled in ApacheConfiguration.loadSafeProperties to neutralise
+  // CVE-2022-33980-class lookup-injection on attacker-controlled config files.
   implementation('org.apache.commons:commons-configuration2:2.3') { exclude group: 'commons-logging', module: 'commons-logging' }
-  implementation('commons-beanutils:commons-beanutils:1.9.3') { exclude group: 'commons-logging', module: 'commons-logging' }
+  implementation('commons-beanutils:commons-beanutils:1.9.4') { exclude group: 'commons-logging', module: 'commons-logging' }
   implementation('commons-io:commons-io:2.13.0') { exclude group: 'commons-logging', module: 'commons-logging' }
 }
 

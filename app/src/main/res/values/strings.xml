@@ -119,6 +119,7 @@
 	<string name="configure_tools_import_network_importing">Importing network…</string>
 	<string name="configure_tools_import_network_message_no_archive">No archive selected.</string>
 	<string name="configure_tools_import_network_message_invalid_archive">Selected file is empty or not a valid archive.</string>
+	<string name="configure_tools_import_network_message_unsafe_archive">Archive contains a configuration file with a \"${…}\" expression. Refusing to import.</string>
 	<string name="configure_tools_import_network_message_already_exists_format">A network named \"%1$s\" already exists.</string>
 
 	<string name="configure_tools_private_keys_encryption_title">Private keys encryption</string>

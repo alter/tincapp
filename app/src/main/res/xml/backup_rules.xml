@@ -19,6 +19,11 @@
 -->
 
 <full-backup-content>
+    <!-- Never let private tinc keys leave the device, regardless of any
+         encrypted-backup or device-transfer flags the user toggles. -->
+    <exclude domain="file" path="networks/" />
+    <exclude domain="external" path="networks/" />
+
     <include
         domain="file"
         path="./"

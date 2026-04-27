@@ -21,6 +21,9 @@
 <data-extraction-rules>
 
     <cloud-backup disableIfNoEncryptionCapabilities="true">
+        <!-- Private tinc keys never leave the device via cloud backup. -->
+        <exclude domain="file" path="networks/" />
+        <exclude domain="external" path="networks/" />
         <include
             domain="file"
             path="./" />
@@ -30,6 +33,9 @@
     </cloud-backup>
 
     <device-transfer>
+        <!-- Same protection during device-to-device transfer. -->
+        <exclude domain="file" path="networks/" />
+        <exclude domain="external" path="networks/" />
         <include
             domain="file"
             path="./" />

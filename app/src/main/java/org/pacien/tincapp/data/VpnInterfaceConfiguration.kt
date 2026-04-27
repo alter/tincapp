@@ -22,11 +22,11 @@ import org.apache.commons.configuration2.Configuration
 import org.apache.commons.configuration2.FileBasedConfiguration
 import org.apache.commons.configuration2.PropertiesConfiguration
 import org.apache.commons.configuration2.builder.FileBasedConfigurationBuilder
-import org.apache.commons.configuration2.builder.fluent.Configurations
 import org.apache.commons.configuration2.builder.fluent.Parameters
 import org.pacien.tincapp.extensions.ApacheConfiguration.getCidrList
 import org.pacien.tincapp.extensions.ApacheConfiguration.getIntList
 import org.pacien.tincapp.extensions.ApacheConfiguration.getStringList
+import org.pacien.tincapp.extensions.ApacheConfiguration.loadSafeProperties
 import org.pacien.tincapp.extensions.Java.applyIgnoringException
 import java.io.File
 
@@ -60,7 +60,7 @@ data class VpnInterfaceConfiguration(val addresses: List<CidrAddress> = emptyLis
     private const val INVITATION_KEY_ADDRESSES = "Ifconfig"
     private const val INVITATION_KEY_ROUTES = "Route"
 
-    fun fromIfaceConfiguration(f: File) = fromIfaceConfiguration(Configurations().properties(f))
+    fun fromIfaceConfiguration(f: File) = fromIfaceConfiguration(loadSafeProperties(f))
     private fun fromIfaceConfiguration(c: Configuration) = VpnInterfaceConfiguration(
       c.getCidrList(KEY_ADDRESSES),
       c.getCidrList(KEY_ROUTES),
@@ -74,7 +74,7 @@ data class VpnInterfaceConfiguration(val addresses: List<CidrAddress> = emptyLis
       c.getInteger(KEY_MTU, null),
       c.getBoolean(KEY_RECONNECT_ON_NETWORK_CHANGE, true))
 
-    fun fromInvitation(f: File) = fromInvitation(Configurations().properties(f))
+    fun fromInvitation(f: File) = fromInvitation(loadSafeProperties(f))
     private fun fromInvitation(c: Configuration) = VpnInterfaceConfiguration(
       c.getStringList(INVITATION_KEY_ADDRESSES)
         .mapNotNull { applyIgnoringException(CidrAddress.Companion::fromSlashSeparated, it) },
