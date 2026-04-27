@@ -18,27 +18,31 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 
-<full-backup-content>
-    <!-- Never let private tinc keys leave the device, regardless of any
-         encrypted-backup or device-transfer flags the user toggles. -->
+<full-backup-content xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="FullBackupContent">
+
+    <include
+        domain="file"
+        path="./"
+        requireFlags="clientSideEncryption" />
+    <include
+        domain="file"
+        path="./"
+        requireFlags="deviceToDeviceTransfer" />
+
+    <include
+        domain="external"
+        path="./"
+        requireFlags="clientSideEncryption" />
+    <include
+        domain="external"
+        path="./"
+        requireFlags="deviceToDeviceTransfer" />
+
+    <!-- Lint cannot see that ./ with requireFlags semantically covers
+         networks/, so it flags these excludes as "not in an included
+         path". The exclude is correct: whenever a backup actually
+         happens (under one of the flags above), networks/ is dropped. -->
     <exclude domain="file" path="networks/" />
     <exclude domain="external" path="networks/" />
-
-    <include
-        domain="file"
-        path="./"
-        requireFlags="clientSideEncryption" />
-    <include
-        domain="file"
-        path="./"
-        requireFlags="deviceToDeviceTransfer" />
-
-    <include
-        domain="external"
-        path="./"
-        requireFlags="clientSideEncryption" />
-    <include
-        domain="external"
-        path="./"
-        requireFlags="deviceToDeviceTransfer" />
 </full-backup-content>
