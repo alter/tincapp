@@ -33,9 +33,10 @@ if (playApiConfigured) apply plugin: 'com.github.triplet.play'
 
 android {
   compileSdkVersion 34
-  // Pin to 34.0.5 (instead of AGP's 34.0.0 default) so the build can run
-  // natively on linux/arm64 hosts: 34.0.0 has no linux-aarch64 archive.
-  buildToolsVersion '34.0.5'
+  // Pin to 35.0.0 (instead of AGP's 34.0.0 default) so the build can
+  // run natively on linux/arm64 hosts: 34.x has no linux-aarch64
+  // archive, 35.0.0 is the first version that does.
+  buildToolsVersion '35.0.0'
 
   defaultConfig {
     applicationId 'org.pacien.tincapp'

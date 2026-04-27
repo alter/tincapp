@@ -101,13 +101,23 @@ fi
 
 # Bump default 30s HTTP timeouts so slow Maven Central reads do not abort
 # the build on flaky networks.
-GRADLE_NET_OPTS=(
+GRADLE_OPTS_LIST=(
   "-Dorg.gradle.internal.http.connectionTimeout=180000"
   "-Dorg.gradle.internal.http.socketTimeout=180000"
 )
 
-echo "==> Running: ./gradlew --no-daemon ${GRADLE_NET_OPTS[*]} ${GRADLE_TASKS[*]}"
-./gradlew --no-daemon "${GRADLE_NET_OPTS[@]}" "${GRADLE_TASKS[@]}"
+# AGP downloads its own AAPT2 from Maven (linux artifact = x86_64 only).
+# On linux/arm64 hosts that fails outright; even on amd64 hosts using
+# emulation it crashes inside the dynamic linker. Force AGP to use the
+# AAPT2 shipped by the SDK build-tools, which sdkmanager has installed
+# matching the host architecture.
+SDK_AAPT2="${ANDROID_HOME}/build-tools/${ANDROID_BUILD_TOOLS_VERSION:-35.0.0}/aapt2"
+if [[ -x "${SDK_AAPT2}" ]]; then
+  GRADLE_OPTS_LIST+=("-Pandroid.aapt2FromMavenOverride=${SDK_AAPT2}")
+fi
+
+echo "==> Running: ./gradlew --no-daemon ${GRADLE_OPTS_LIST[*]} ${GRADLE_TASKS[*]}"
+./gradlew --no-daemon "${GRADLE_OPTS_LIST[@]}" "${GRADLE_TASKS[@]}"
 
 echo "==> Collecting APKs into ${OUTPUT_DIR}"
 shopt -s globstar nullglob
