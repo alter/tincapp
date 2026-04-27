@@ -79,6 +79,16 @@ android {
     viewBinding = true
   }
 
+  packaging {
+    resources {
+      // bcpkix-jdk18on / bcprov-jdk18on / bcutil-jdk18on each ship the
+      // same META-INF/versions/9/OSGI-INF/MANIFEST.MF, which the merger
+      // cannot resolve on its own. We do not need any OSGi manifests in
+      // the APK at all - drop them.
+      excludes += ['META-INF/versions/9/OSGI-INF/MANIFEST.MF']
+    }
+  }
+
   compileOptions {
     sourceCompatibility JavaVersion.VERSION_17
     targetCompatibility JavaVersion.VERSION_17
