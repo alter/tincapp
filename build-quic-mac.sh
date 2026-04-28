@@ -127,6 +127,9 @@ build_msquic() {
   fi
   echo "==> [${abi}] Building msquic"
   local quictls="${CACHE_DIR}/build/quictls-${abi}"
+  # Drop any stale CMake cache from a previous failed configure so
+  # variable renames (e.g. QUIC_TLS -> QUIC_TLS_LIB) actually take effect.
+  rm -rf "${build}"
   cmake -B "${build}" -S "${CACHE_DIR}/src/msquic" -G Ninja \
     -DCMAKE_TOOLCHAIN_FILE="${NDK}/build/cmake/android.toolchain.cmake" \
     -DANDROID_ABI="${abi}" \
