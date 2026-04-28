@@ -149,10 +149,11 @@ build_tinc_quic() {
   rm -rf "${tinc_build}"
   mkdir -p "${tinc_build}"
 
-  if [[ ! -f "${SRC_DIR}/tinc-quic/configure" ]]; then
-    echo "==> Running autoreconf in tinc-quic"
-    (cd "${SRC_DIR}/tinc-quic" && autoreconf -fi)
-  fi
+  # Always regenerate configure: the upstream tarball ships a stale
+  # configure that doesn't know fork-specific flags like --with-msquic
+  # and may also have an older curses requirement.
+  echo "==> Running autoreconf in tinc-quic"
+  (cd "${SRC_DIR}/tinc-quic" && autoreconf -fi)
 
   echo "==> [${abi}] Building tinc-quic"
   (
