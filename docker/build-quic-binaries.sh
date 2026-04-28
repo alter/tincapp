@@ -80,7 +80,7 @@ build_quictls() {
   pushd "${SRC_DIR}/quictls" >/dev/null
   git clean -fdx
   ANDROID_NDK_ROOT="${NDK}" \
-    ./Configure "${OSSL_TARGET}" no-shared no-tests no-docs no-asm \
+    ./Configure "${OSSL_TARGET}" no-shared no-tests no-asm \
       -D__ANDROID_API__="${ANDROID_API}" \
       --prefix="${prefix}"
   make -j"$(nproc)" build_libs
