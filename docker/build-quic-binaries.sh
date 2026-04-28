@@ -104,7 +104,7 @@ build_msquic() {
     -DANDROID_ABI="${abi}" \
     -DANDROID_PLATFORM="android-${ANDROID_API}" \
     -DCX_PLATFORM=android \
-    -DQUIC_TLS=quictls \
+    -DQUIC_TLS_LIB=quictls \
     -DQUIC_BUILD_TOOLS=OFF \
     -DQUIC_BUILD_TEST=OFF \
     -DQUIC_BUILD_PERF=OFF \
