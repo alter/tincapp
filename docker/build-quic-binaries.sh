@@ -168,7 +168,7 @@ build_tinc_quic() {
       "${SRC_DIR}/tinc-quic/configure" \
         --host="${HOST}" \
         --with-msquic="${msquic_build}" \
-        --without-readline --without-curses \
+        --disable-readline --disable-curses \
         --disable-lzo \
         ac_cv_func_malloc_0_nonnull=yes \
         ac_cv_func_realloc_0_nonnull=yes
