@@ -1,4 +1,12 @@
-# Tinc Mesh VPN: tinc-quic native binaries builder
+# Tinc Mesh VPN: tinc-quic native binaries builder (linux/amd64 only).
+#
+# IMPORTANT: this image only builds on linux/amd64 hosts. Google does
+# not publish a Linux aarch64 NDK, and running an x86_64 NDK under
+# qemu-user / Rosetta on Apple Silicon Macs is broken the same way
+# AAPT2 was: spawned cross-compiler clang processes crash on the
+# dynamic linker. Apple Silicon developers should use
+# build-quic-mac.sh at the project root, which runs the same pipeline
+# natively against the darwin-arm64 NDK already on the host.
 #
 # Cross-compiles libtincd-quic.so / libtinc-quic.so / libmsquic.so for
 # all four Android ABIs that the app supports. Output is dropped into a
