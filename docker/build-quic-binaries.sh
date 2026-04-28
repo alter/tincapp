@@ -17,6 +17,10 @@ set -euo pipefail
 NDK="${ANDROID_NDK:-/opt/android-ndk}"
 TOOLS="${NDK}/toolchains/llvm/prebuilt/linux-x86_64/bin"
 PATH="${TOOLS}:${PATH}"
+# msquic builds its own bundled quictls during cmake --build; that
+# inner Configure invocation needs ANDROID_NDK_ROOT.
+export ANDROID_NDK_ROOT="${NDK}"
+export ANDROID_NDK_HOME="${NDK}"
 
 CACHE_DIR="${CACHE_DIR:-/cache}"
 OUTPUT_DIR="${OUTPUT_DIR:-/output}"
@@ -102,6 +106,9 @@ build_msquic() {
   # Drop any stale CMake cache from a previous failed configure so
   # variable renames (e.g. QUIC_TLS -> QUIC_TLS_LIB) actually take effect.
   rm -rf "${build}"
+  # msquic vendor-builds its own quictls submodule, so OPENSSL_*
+  # variables are ignored. Our pre-built quictls is kept around purely
+  # for tinc-quic (it needs an OpenSSL for SPTPS).
   cmake -B "${build}" -S "${SRC_DIR}/msquic" -G Ninja \
     -DCMAKE_TOOLCHAIN_FILE="${NDK}/build/cmake/android.toolchain.cmake" \
     -DANDROID_ABI="${abi}" \
@@ -111,11 +118,7 @@ build_msquic() {
     -DQUIC_BUILD_TOOLS=OFF \
     -DQUIC_BUILD_TEST=OFF \
     -DQUIC_BUILD_PERF=OFF \
-    -DBUILD_SHARED_LIBS=ON \
-    -DOPENSSL_ROOT_DIR="${quictls}" \
-    -DOPENSSL_INCLUDE_DIR="${quictls}/include" \
-    -DOPENSSL_CRYPTO_LIBRARY="${quictls}/lib/libcrypto.a" \
-    -DOPENSSL_SSL_LIBRARY="${quictls}/lib/libssl.a"
+    -DBUILD_SHARED_LIBS=ON
   cmake --build "${build}" -j"$(nproc)"
 }
 
