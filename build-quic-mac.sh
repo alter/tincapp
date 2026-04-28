@@ -192,7 +192,8 @@ build_tinc_quic() {
     AR="${TOOLS}/llvm-ar" \
     RANLIB="${TOOLS}/llvm-ranlib" \
     STRIP="${TOOLS}/llvm-strip" \
-    CFLAGS="-fPIE -fPIC -I${quictls}/include -I${CACHE_DIR}/src/msquic/src/inc" \
+    CFLAGS="-fPIE -fPIC -I${quictls}/include -I${CACHE_DIR}/src/msquic/src/inc \
+            -include stdlib.h -include string.h -include stdio.h" \
     LDFLAGS="-pie -L${quictls}/lib -L${msquic_libdir} -Wl,-rpath,\$ORIGIN" \
     LIBS="-lmsquic -lssl -lcrypto -llog -ldl -lm" \
       "${CACHE_DIR}/src/tinc-quic/configure" \
