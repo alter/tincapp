@@ -3,6 +3,78 @@
 This file lists notable changes that have been made to the application on each release.
 Releases are tracked and referred to using git tags.
 
+## v0.43 -- 2026-04-28
+
+### Features
+- optional QUIC transport per network via the [link0ln/tinc-quic][quic-fork]
+  fork. Set `TransportMode = quic` in `tinc.conf` and the app launches
+  `libtincd-quic.so` (built with MsQuic + quictls) instead of the classic
+  daemon. Classic and QUIC networks coexist and are dispatched
+  per-network from the network's own `tinc.conf`. Detects an unsupported
+  OS (QUIC requires Android 14+) or a build that does not bundle the
+  QUIC binaries and surfaces a localised error before exec.
+- read the tinc-quic-style `VPNAddress = X.Y.Z.W/N` directive from
+  `tinc.conf` as a fallback for `network.conf`'s `Address` field, so a
+  fork-style "everything in tinc.conf" layout drives the Android VPN
+  builder without needing an Android-only file.
+- import a network configuration from a zip archive
+  (configure → tools → "Import network from archive"). Refuses archives
+  whose `*.conf` or `invitation-data` contain `${...}` lookup
+  expressions, neutralising CVE-2022-33980-class RCE through the fork's
+  config parser.
+
+### Security
+- drop the `makePublic` helper that left fresh tinc keys
+  world-readable / world-writable on disk; new networks are explicitly
+  owner-only.
+- exclude `networks/` from cloud backup and device-to-device transfer
+  in both `full-backup-content` and `data-extraction-rules`, regardless
+  of `requireFlags`. Private tinc keys never leave the device.
+- prompt for confirmation before acting on an external
+  `org.pacien.tincapp.intent.action.CONNECT` / `tinc://` intent, and
+  force the status screen open afterwards. Stops malicious apps from
+  silently switching the user onto a different already-configured tinc
+  network once VPN permission is granted.
+- disable variable interpolation on every `commons-configuration2`
+  parser entry point as defence in depth.
+- bump BouncyCastle from end-of-life `bcpkix-jdk15on:1.67` to
+  `bcpkix-jdk18on:1.78`, `commons-beanutils` 1.9.3 → 1.9.4,
+  `slf4j-api` 1.7.30 → 1.7.36.
+
+### Build / packaging
+- new local APK builders so contributors can produce a signed APK
+  without configuring a release keystore by hand:
+  - `./build-mac.sh` for Apple Silicon Macs (native, uses the darwin
+    NDK).
+  - `docker build -f Dockerfile && docker run ... tincapp-builder` for
+    x86_64 Linux hosts and CI.
+  - both generate a self-signed RSA-4096 keystore in `./keystore/` on
+    the first run and reuse it forever after, so rebuilt APKs install
+    as upgrades over the previous one.
+- new tinc-quic native pipeline: `./build-quic-mac.sh` (Apple Silicon
+  native) and `docker/Dockerfile.quic-binaries` (x86_64 Linux). Both
+  cross-compile [quictls][quictls] → [MsQuic][msquic] → tinc-quic for
+  all four Android ABIs and drop `libtincd-quic.so` /
+  `libtinc-quic.so` / `libmsquic.so` straight into
+  `app/src/main/jniLibs/<abi>/`.
+- replace deprecated `androidx.lifecycle:lifecycle-extensions:2.2.0`
+  with `lifecycle-livedata:2.8.7` + `lifecycle-viewmodel:2.8.7`.
+- bump `buildToolsVersion` to 35.0.0 (first version with linux-aarch64
+  archives) so CI can build natively on arm64 Linux.
+- decouple the release signing config from the Google Play Publisher
+  API key in `app/build.gradle`. The `triplet.play` plugin is now
+  applied conditionally so a partial `keystore.properties` (signing
+  only) builds cleanly.
+
+### Internal cleanup
+- clear deprecated-API warnings (`Handler()`, `ReversedLinesFileReader`,
+  `ViewModelProviders.of()`).
+- migrate the new import dialog to `ActivityResultContracts`.
+
+[quic-fork]: https://github.com/link0ln/tinc-quic
+[quictls]: https://github.com/quictls/openssl
+[msquic]: https://github.com/microsoft/msquic
+
 ## v0.42 -- 2024-10-04
 - fix automatic config dir migration issue
 
