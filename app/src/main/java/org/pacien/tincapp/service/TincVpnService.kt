@@ -34,6 +34,7 @@ import org.pacien.tincapp.R
 import org.pacien.tincapp.commands.Executor
 import org.pacien.tincapp.commands.Tinc
 import org.pacien.tincapp.commands.Tincd
+import org.pacien.tincapp.commands.TincFlavor
 import org.pacien.tincapp.context.App
 import org.pacien.tincapp.context.AppPaths
 import org.pacien.tincapp.data.TincConfiguration
@@ -97,23 +98,37 @@ class TincVpnService : VpnService() {
     if (!AppPaths.confDir(netName).exists())
       return reportError(resources.getString(R.string.notification_error_message_no_configuration_for_network_format, netName), docTopic = "doc.html#configuration-files")
 
+    val flavor = TincFlavor.forNetwork(netName)
+    log.info("Network \"$netName\" uses tinc flavor: $flavor")
+    if (flavor == TincFlavor.QUIC) {
+      if (!TincFlavor.isSupportedOnThisDevice(flavor))
+        return reportError(resources.getString(R.string.notification_error_message_quic_unsupported_os))
+      if (!flavor.tincdBinary().exists())
+        return reportError(resources.getString(R.string.notification_error_message_quic_binary_missing))
+    }
+
     log.info("Starting tinc daemon for network \"$netName\".")
     if (isConnected() || getCurrentNetName() != null) stopVpn().join()
 
-    val privateKeys = try {
-      TincConfiguration.fromTincConfiguration(AppPaths.existing(AppPaths.tincConfFile(netName))).let { tincCfg ->
-        Pair(
-          TincKeyring.unlockKey(
-            AppPaths.NET_DEFAULT_ED25519_PRIVATE_KEY_FILE,
-            tincCfg.ed25519PrivateKeyFile ?: AppPaths.defaultEd25519PrivateKeyFile(netName),
-            passphrase),
-          TincKeyring.unlockKey(
-            AppPaths.NET_DEFAULT_RSA_PRIVATE_KEY_FILE,
-            tincCfg.privateKeyFile ?: AppPaths.defaultRsaPrivateKeyFile(netName),
-            passphrase))
-      }
+    val tincCfg = try {
+      TincConfiguration.fromTincConfiguration(AppPaths.existing(AppPaths.tincConfFile(netName)))
     } catch (e: FileNotFoundException) {
-      Pair(null, null)
+      null
+    } catch (e: Exception) {
+      return reportError(resources.getString(R.string.notification_error_message_could_not_read_private_key_format, e.defaultMessage()), e)
+    }
+
+    val privateKeys = try {
+      if (tincCfg == null) Pair(null, null)
+      else Pair(
+        TincKeyring.unlockKey(
+          AppPaths.NET_DEFAULT_ED25519_PRIVATE_KEY_FILE,
+          tincCfg.ed25519PrivateKeyFile ?: AppPaths.defaultEd25519PrivateKeyFile(netName),
+          passphrase),
+        TincKeyring.unlockKey(
+          AppPaths.NET_DEFAULT_RSA_PRIVATE_KEY_FILE,
+          tincCfg.privateKeyFile ?: AppPaths.defaultRsaPrivateKeyFile(netName),
+          passphrase))
     } catch (e: PEMException) {
       return reportError(resources.getString(R.string.notification_error_message_could_not_decrypt_private_keys_format, e.message))
     } catch (e: Exception) {
@@ -121,7 +136,9 @@ class TincVpnService : VpnService() {
     }
 
     val interfaceCfg = try {
-      VpnInterfaceConfiguration.fromIfaceConfiguration(AppPaths.existing(AppPaths.netConfFile(netName)))
+      val netConf = AppPaths.netConfFile(netName)
+      if (tincCfg != null) VpnInterfaceConfiguration.mergedFromConfigs(netConf, tincCfg)
+      else VpnInterfaceConfiguration.fromIfaceConfiguration(AppPaths.existing(netConf))
     } catch (e: FileNotFoundException) {
       return reportError(
         resources.getString(R.string.notification_error_message_network_config_not_found_format, e.defaultMessage()),

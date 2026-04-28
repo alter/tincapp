@@ -27,7 +27,7 @@ import java.io.File
  */
 object Tincd {
   fun start(netName: String, device: String, ed25519PrivateKey: File? = null, rsaPrivateKey: File? = null): CompletableFuture<Unit> =
-    Executor.call(Command(AppPaths.tincd().absolutePath)
+    Executor.call(Command(TincFlavor.forNetwork(netName).tincdBinary().absolutePath)
       .withOption("no-detach")
       .withOption("config", AppPaths.confDir(netName).absolutePath)
       .withOption("pidfile", AppPaths.pidFile(netName).absolutePath)
