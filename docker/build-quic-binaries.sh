@@ -155,6 +155,20 @@ build_tinc_quic() {
   echo "==> Running autoreconf in tinc-quic"
   (cd "${SRC_DIR}/tinc-quic" && autoreconf -fi)
 
+  # The fork's xalloc.h calls malloc/calloc/realloc/strdup/vasprintf
+  # without #include <stdlib.h>/<string.h>/<stdio.h>. Modern clang (NDK
+  # r26b ships clang 17) treats implicit declarations as a hard error,
+  # and an implicit malloc would otherwise silently truncate 64-bit
+  # pointers to 32 bits. Patch the header in place; idempotent so
+  # reruns don't keep stacking the prelude.
+  xalloc_h="${SRC_DIR}/tinc-quic/src/xalloc.h"
+  if ! head -5 "${xalloc_h}" | grep -q "<stdlib.h>"; then
+    echo "==> Patching xalloc.h to include stdlib/string/stdio"
+    printf '#include <stdlib.h>\n#include <string.h>\n#include <stdio.h>\n' > "${xalloc_h}.tmp"
+    cat "${xalloc_h}" >> "${xalloc_h}.tmp"
+    mv "${xalloc_h}.tmp" "${xalloc_h}"
+  fi
+
   echo "==> [${abi}] Building tinc-quic"
   (
     cd "${tinc_build}"
@@ -162,8 +176,7 @@ build_tinc_quic() {
     AR="${TOOLS}/llvm-ar" \
     RANLIB="${TOOLS}/llvm-ranlib" \
     STRIP="${TOOLS}/llvm-strip" \
-    CFLAGS="-fPIE -fPIC -I${quictls}/include -I${SRC_DIR}/msquic/src/inc \
-            -include stdlib.h -include string.h -include stdio.h" \
+    CFLAGS="-fPIE -fPIC -I${quictls}/include -I${SRC_DIR}/msquic/src/inc" \
     LDFLAGS="-pie -L${quictls}/lib -L${msquic_libdir} -Wl,-rpath,\$ORIGIN" \
     LIBS="-lmsquic -lssl -lcrypto -llog -ldl -lm" \
       "${SRC_DIR}/tinc-quic/configure" \
