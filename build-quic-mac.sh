@@ -20,7 +20,11 @@ OUTPUT_DIR="${PROJECT_DIR}/app/src/main/jniLibs"
 
 ANDROID_NDK_VERSION="${ANDROID_NDK_VERSION:-26.1.10909125}"
 NDK="${ANDROID_NDK:-${TOOLING_DIR}/android-sdk/ndk/${ANDROID_NDK_VERSION}}"
-ANDROID_API="${ANDROID_API:-21}"
+# API 28 (Android 9): the lowest level that has Bionic glob() /
+# globfree(), which msquic's selfsign_openssl.c depends on. The
+# resulting QUIC binaries therefore require Android 9+ at runtime;
+# classic tinc binaries are unaffected and still serve API 21+.
+ANDROID_API="${ANDROID_API:-28}"
 ABIS="${ABIS:-arm64-v8a armeabi-v7a x86_64 x86}"
 
 QUICTLS_REPO="${QUICTLS_REPO:-https://github.com/quictls/openssl}"
