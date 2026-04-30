@@ -75,6 +75,8 @@
 	<string name="notification_error_message_network_config_not_found_format">Could not find network configuration file at \"%1$s\".</string>
 	<string name="notification_error_message_network_config_invalid_format">Invalid network configuration in network.conf:\n%1$s</string>
 	<string name="notification_error_message_could_not_decrypt_private_keys_format">Could not decrypt private keys:\n%1$s</string>
+	<string name="notification_error_message_quic_unsupported_os">QUIC transport requires Android 14 or newer.</string>
+	<string name="notification_error_message_quic_binary_missing">QUIC daemon binary not bundled in this build. Run build-quic-mac.sh / docker/Dockerfile.quic-binaries to produce it before launching a QUIC network.</string>
 
 	<!-- Start activity -->
 	<string name="start_activity_menu_configure">Configure</string>

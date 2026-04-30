@@ -33,6 +33,12 @@ object AppPaths {
 
   private const val TINCD_BIN = "libtincd.so"
   private const val TINC_BIN = "libtinc.so"
+  // Optional second pair shipped via app/src/main/jniLibs/<abi>/ when the
+  // tinc-quic native pipeline has been built. Absent on debug builds that
+  // skip that step; the QUIC code path checks tincdQuic().exists() before
+  // attempting to launch.
+  private const val TINCD_QUIC_BIN = "libtincd-quic.so"
+  private const val TINC_QUIC_BIN = "libtinc-quic.so"
 
   private const val APPLOG_FILE = "tincapp.log"
   private const val CRASHFLAG_FILE = "crash.flag"
@@ -75,4 +81,6 @@ object AppPaths {
 
   fun tincd() = File(binDir(), TINCD_BIN)
   fun tinc() = File(binDir(), TINC_BIN)
+  fun tincdQuic() = File(binDir(), TINCD_QUIC_BIN)
+  fun tincQuic() = File(binDir(), TINC_QUIC_BIN)
 }

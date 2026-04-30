@@ -27,15 +27,26 @@ import java.io.File
  * @author euxane
  */
 data class TincConfiguration(val ed25519PrivateKeyFile: File? = null,
-                             val privateKeyFile: File? = null) {
+                             val privateKeyFile: File? = null,
+                             val transportMode: String? = null,
+                             val vpnAddress: String? = null) {
   companion object {
 
     private const val KEY_ED25519_PRIVATE_KEY_FILE = "Ed25519PrivateKeyFile"
     private const val KEY_PRIVATE_KEY_FILE = "PrivateKeyFile"
 
+    // tinc-quic introduces these:
+    //  - TransportMode = quic       selects the QUIC daemon
+    //  - VPNAddress = 10.0.0.1/24   replaces the tinc-up script for
+    //                                interface address assignment
+    private const val KEY_TRANSPORT_MODE = "TransportMode"
+    private const val KEY_VPN_ADDRESS = "VPNAddress"
+
     fun fromTincConfiguration(f: File) = fromTincConfiguration(loadSafeProperties(f))
     private fun fromTincConfiguration(c: Configuration) = TincConfiguration(
       c.getFile(KEY_ED25519_PRIVATE_KEY_FILE),
-      c.getFile(KEY_PRIVATE_KEY_FILE))
+      c.getFile(KEY_PRIVATE_KEY_FILE),
+      c.getString(KEY_TRANSPORT_MODE, null),
+      c.getString(KEY_VPN_ADDRESS, null))
   }
 }

@@ -74,6 +74,21 @@ data class VpnInterfaceConfiguration(val addresses: List<CidrAddress> = emptyLis
       c.getInteger(KEY_MTU, null),
       c.getBoolean(KEY_RECONNECT_ON_NETWORK_CHANGE, true))
 
+    /**
+     * Merge `network.conf` with the `VPNAddress` directive that
+     * tinc-quic puts in `tinc.conf` to replace the tinc-up script.
+     * If `network.conf` is missing or omits the `Address` field, fall
+     * back to whatever the daemon would assign itself anyway.
+     */
+    fun mergedFromConfigs(networkConfFile: File, tincConf: TincConfiguration): VpnInterfaceConfiguration {
+      val base = if (networkConfFile.exists()) fromIfaceConfiguration(networkConfFile)
+                 else VpnInterfaceConfiguration()
+      if (base.addresses.isNotEmpty()) return base
+      val cidr = tincConf.vpnAddress?.let { applyIgnoringException(CidrAddress.Companion::fromSlashSeparated, it) }
+        ?: return base
+      return base.copy(addresses = listOf(cidr))
+    }
+
     fun fromInvitation(f: File) = fromInvitation(loadSafeProperties(f))
     private fun fromInvitation(c: Configuration) = VpnInterfaceConfiguration(
       c.getStringList(INVITATION_KEY_ADDRESSES)

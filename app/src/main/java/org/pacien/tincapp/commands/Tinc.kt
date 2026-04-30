@@ -26,7 +26,7 @@ import org.pacien.tincapp.context.AppPaths
  */
 object Tinc {
   private fun newCommand(netName: String): Command =
-    Command(AppPaths.tinc().absolutePath)
+    Command(TincFlavor.forNetwork(netName).tincBinary().absolutePath)
       .withOption("config", AppPaths.confDir(netName).absolutePath)
       .withOption("pidfile", AppPaths.pidFile(netName).absolutePath)
 
